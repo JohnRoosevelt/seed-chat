@@ -16,7 +16,6 @@
 
   let msgsDom;
   $effect(async() => {
-		if (!msgsDom) return; // not yet mounted
 		// reference `messages` so that this code re-runs whenever it changes
 		msgs.length;
 
