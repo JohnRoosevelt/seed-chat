@@ -43,7 +43,7 @@
 				></span>
 			</button>
 			{#if $errors[col]}
-				<span i-icons-sigh text-red-500 h-5 w-5 />
+				<span i-icons-sigh text-red-500 h-5 w-5></span>
 			{/if}
 		</div>
 	</div>
@@ -66,7 +66,7 @@
 	bg-red
 >
 	<header flex items-center gap-x-2>
-		<span i-icons-logo h-10 w-10 />
+		<span i-icons-logo h-10 w-10 ></span>
 		<span text-gradient-tertiary-warning-error>一棵树，栽在溪水旁</span>
 	</header>
 	<form
@@ -100,7 +100,7 @@
 					<div
 						class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
 					>
-						<span i-icons-sigh text-red-500 h-5 w-5 />
+						<span i-icons-sigh text-red-500 h-5 w-5></span>
 					</div>
 				{/if}
 			</div>

@@ -35,6 +35,6 @@
 
   <main class="flex flex-col bg-red-50">
     dialog content
-    <DialogClose {dialoger} />
+    <DialogClose {dialoger} > </DialogClose>
   </main>
 </Dialog>

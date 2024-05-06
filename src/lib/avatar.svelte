@@ -3,5 +3,5 @@
 </script>
 
 <div flex-bc>
-  <span i-carbon-user-avatar text-4xl />
+  <span i-carbon-user-avatar text-4xl > </span>
 </div>
