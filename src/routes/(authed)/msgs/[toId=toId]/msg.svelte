@@ -1,9 +1,10 @@
 <script>
+  import { formatDate } from "$lib/dateUtils.js";
   import Avatar from "$lib/avatar.svelte";
 
   const { msg = {} } = $props();
 
-  let isMe = $derived(msg.id % 2)
+  let isMe = $derived(msg.id % 2);
 </script>
 
 <article
@@ -13,18 +14,25 @@
   class:flex-row-reverse={isMe}
   class:flex-row={!isMe}
 >
-  <div flex-cx>
+  <div flex-cx self-start>
     <Avatar />
   </div>
   <div
     flex-ce
+    flex-col
     text-base
-    px-2
-    py-1
+    px-3
+    py-2
     rounded
-    class={`max-w-80% ${isMe ? "bg-green text-white" : "bg-gray200 text-black"}`}
+    class={`max-w-80% ${isMe ? "bg-green text-white" : "bg-white text-black"}`}
   >
-    msg content {JSON.stringify(msg)}
+    {#each msg.content.split("\n") as line}
+      {#if line.length > 0}
+        <p>{line}</p>
+      {:else}
+        <br />
+      {/if}
+    {/each}
   </div>
   {#if msg.sendAt == -1}
     <div fle-ce>
@@ -38,7 +46,7 @@
         </div>
       {/if}
       <div flex>
-        {msg.createdAt || Date.now()}
+        {formatDate(msg.createdAt)}
       </div>
     </div>
   {/if}

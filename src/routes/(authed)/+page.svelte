@@ -1,5 +1,5 @@
 <script>
-  import Msg from "./components/index/index.svelte";
+  import Msg from "./user.svelte";
   let { data } = $props();
   let items = [...new Array(20).keys()];
 </script>

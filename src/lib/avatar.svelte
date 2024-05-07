@@ -1,5 +1,5 @@
 <script>
-  let { data, item } = $props();
+  const { data, item } = $props();
 </script>
 
 <div flex-bc>
