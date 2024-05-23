@@ -1,4 +1,6 @@
 <script>
+  import Avatar from "$lib/avatar.svelte";
+
 	const { data } = $props();
 	let { user } = data;
 </script>
@@ -6,7 +8,7 @@
 <article h-full bg-gray-100 space-y-4>
 	<a href="#/" w-full bg-white flex flex-col px-6 pt-16 pb-6>
 		<div flex class="justify-between items-center" space-x-4>
-			<span i-carbon-user-avatar text-6xl></span>
+			<Avatar size=12 />
 			<div flex flex-col flex-1>
 				<div text-3xl>{user.name}</div>
 				<div text-gray>ID: {user.id}</div>

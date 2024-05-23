@@ -34,6 +34,7 @@
   "type": "module",
   "dependencies": {
     "dayjs": "^1.11.11",
-    "dexie": "^4.0.4"
+    "dexie": "^4.0.4",
+    "svelte-identicons": "^1.0.4"
   }
 }
