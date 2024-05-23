@@ -2,9 +2,11 @@
   import { formatDate } from "$lib/dateUtils.js";
   import Avatar from "$lib/avatar.svelte";
 
-  const { msg = {} } = $props();
+  const { msg = {}, data } = $props();
 
   let isMe = $derived(msg.id % 2);
+
+  const user = $derived(isMe ? data.user : data.toUser)
 </script>
 
 <article
@@ -15,7 +17,7 @@
   class:flex-row={!isMe}
 >
   <div flex-cx self-start>
-    <Avatar />
+    <Avatar {user} />
   </div>
   <div
     flex-ce

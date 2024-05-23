@@ -1,19 +1,21 @@
 <script>
   import { Identicon } from "svelte-identicons";
 
-  const { data, item, size = 9 } = $props();
+  const { user = {}, size = 9 } = $props();
+
+  const { id = 'xxx', name = 'xxx'} = user
 </script>
 
 <div flex-bc rounded-2 overflow-hidden>
   <!-- <span i-carbon-user-avatar text-4xl> </span> -->
   <Identicon
-    seed="your-seed"
+    seed={id}
     height={size}
     width={size}
     pixelSize={4}
     numberOfColors={3}
     symetry="central"
-    text={undefined}
+    text={name}
     textColor="#ffffff"
   />
 </div>
