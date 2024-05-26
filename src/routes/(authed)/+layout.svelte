@@ -1,4 +1,3 @@
-<script>
-  
-</script>
+
+<!-- svelte-ignore deprecated-slot-element -->
 <slot />

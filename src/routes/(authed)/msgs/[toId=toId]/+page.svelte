@@ -1,9 +1,14 @@
 <script>
+	import Avatar from '$lib/avatar.svelte';
   import { page } from "$app/stores";
   import Msg from "./msg.svelte";
+
   let disabled = $state(true);
   let content = $state("");
   let rows = $state(1);
+
+  const { data } = $props();
+
   $effect(() => {
     if (content) disabled = false;
     else disabled = true;
@@ -44,7 +49,6 @@
     content = "";
   }
 
-  const { data } = $props();
 </script>
 
 <article w-screen h-screen bg-gray-100 flex flex-col>
@@ -53,7 +57,10 @@
       <span i-carbon-chevron-left text-2xl></span>
       返回
     </a>
-    <div>toId: {$page.params.toId}</div>
+    <div flex-cc gap-3>
+      <Avatar user={data.toUser} />
+      {data.toUser.name}
+    </div>
     <a href="/test">更多</a>
   </div>
 

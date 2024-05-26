@@ -6,7 +6,7 @@
 
   let isMe = $derived(msg.id % 2);
 
-  const user = $derived(isMe ? data.user : data.toUser)
+  const user = $derived(isMe ? data.user : data.toUser);
 </script>
 
 <article
@@ -17,7 +17,7 @@
   class:flex-row={!isMe}
 >
   <div flex-cx self-start>
-    <Avatar {user} />
+    <Avatar user={isMe ? data.user : data.toUser} />
   </div>
   <div
     flex-ce
