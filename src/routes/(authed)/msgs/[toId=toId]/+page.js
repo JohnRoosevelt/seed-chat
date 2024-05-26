@@ -1,21 +1,25 @@
-export const ssr = false;
 
-import localforage from "localforage";
-export async function load({ url, locals, params, parent }) {
-	console.log({ url, locals, params })
+export async function load({ params, parent }) {
 
-	const { user } = await parent()
+	const { user, channelsDB, localforage } = await parent()
 
-	console.log(user, params.toId)
 	const name = `DB${user.id}`;
-	const channelsDB = localforage.createInstance({
+
+	const msgsDB = localforage.createInstance({
 		name,
-		storeName: "channels",
-		description: "messages form channels",
+		storeName: `messages${params.toId}`,
+		description: `messages form ${params.toId}`,
 	});
 
-	const toUser = await channelsDB.getItem(params.toId)
-	console.log({ toUser })
-	return { toUser }
+	const messages = []
+	const [toUser] = await Promise.all([
+		channelsDB.getItem(params.toId),
+		msgsDB.iterate((v, k, n) => { messages.push(v) })
+	])
 
+	console.log({ toUser, messages })
+	return { toUser, messages, msgsDB }
 }
+
+// export const ssr = false;
+

@@ -5,6 +5,6 @@
 </script>
 
 <a href={`/msgs/${user.id}`} w-full h-20 bg-white flex-bc space-x-2 px-3>
-  <Avatar />
+  <Avatar {user} />
   <Info {user} {data} />
 </a>

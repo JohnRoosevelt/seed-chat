@@ -16,13 +16,17 @@ const schema = z.object({
 //   path: ["confirm"]
 // });
 
-export const load = (async () => {
+function getRedirectTo (url) {
+  return url.searchParams.get('redirectTo') ?? '/'
+}
+
+export async function load ({route, url, params}) {
   const form = await superValidate(zod(schema));
-  return { form };
-});
+  return { form, redirectTo: getRedirectTo(url) };
+}
 
 export const actions = {
-	async login ({ cookies, url, request }) {
+	async login ({ cookies, url, request, params }) {
 		const form = await superValidate(request, zod(schema));
 
     if (!form.valid) {
@@ -34,6 +38,6 @@ export const actions = {
 
     const user = btoa(JSON.stringify({name: 'test', id: '1000001'}));
 		cookies.set('jwt', user, { path: '/' });
-		throw redirect(303, url.searchParams.get('redirectTo') ?? '/');
+		throw redirect(303, getRedirectTo(url));
 	},
 };

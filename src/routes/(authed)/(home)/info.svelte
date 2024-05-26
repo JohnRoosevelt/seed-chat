@@ -7,7 +7,7 @@
 <div w-full flex-bc flex-col>
   <div w-full flex-bc>
     <div text-base>{user.name}</div>
-    <div text-gray text-xs><Time relative timestamp={user.createdAt} /></div>
+    <div text-gray text-xs><Time relative timestamp={user.updatedAt} /></div>
   </div>
   <div w-full flex-bc>
     <div text-gray text-sm>{user.msg}</div>

@@ -73,7 +73,7 @@
 	</header>
 	<form
 		method="POST"
-		action="?/login"
+		action={`?/login&redirectTo=${data.redirectTo}`}
 		use:enhance
 		mt-10
 		flex

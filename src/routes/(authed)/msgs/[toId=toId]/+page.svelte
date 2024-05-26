@@ -1,6 +1,6 @@
 <script>
-	import Avatar from '$lib/avatar.svelte';
-  import { page } from "$app/stores";
+  import { invalidateAll } from "$app/navigation";
+  import Avatar from "$lib/avatar.svelte";
   import Msg from "./msg.svelte";
 
   let disabled = $state(true);
@@ -18,7 +18,7 @@
     rows = Math.min(Math.max(newlineCount, 1), 5);
   });
 
-  let msgs = $state([]);
+  let msgs = $state([...data.messages]);
 
   let msgsDom;
   $effect(async () => {
@@ -37,7 +37,7 @@
     }
   }
 
-  function onclick() {
+  async function onclick() {
     if (disabled) return;
     let ary = content.split("\n") || [];
     let lastIndexOf = ary.length - 1;
@@ -45,10 +45,17 @@
       lastIndexOf--;
     }
     ary = ary.slice(0, lastIndexOf + 1);
-    msgs.push({ id: msgs.length, content: ary.join("\n") });
+    const msg = { id: msgs.length, content: ary.join("\n") };
+    msgs.push(msg);
+    await data.msgsDB.setItem(String(msgs.length), msg);
+    await data.channelsDB.setItem(data.toUser.id, {
+      ...data.toUser,
+      msg: msg.content,
+      updatedAt: Date.now(),
+    });
+    invalidateAll();
     content = "";
   }
-
 </script>
 
 <article w-screen h-screen bg-gray-100 flex flex-col>
@@ -61,7 +68,14 @@
       <Avatar user={data.toUser} />
       {data.toUser.name}
     </div>
-    <a href="/test">更多</a>
+    <button
+      onclick={async () => {
+        await data.msgsDB.dropInstance();
+        await data.channelsDB.removeItem(data.toUser.id)
+        invalidateAll();
+        history.back()
+      }}>删除</button
+    >
   </div>
 
   <article
