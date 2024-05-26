@@ -1,5 +1,5 @@
 <script>
-  import { formatDate } from "$lib/dateUtils.js";
+  import Time from "svelte-time";
   import Avatar from "$lib/avatar.svelte";
 
   const { msg = {}, data } = $props();
@@ -48,7 +48,7 @@
         </div>
       {/if}
       <div flex>
-        {formatDate(msg.createdAt)}
+        <Time relative timestamp={msg.createdAt} />
       </div>
     </div>
   {/if}
