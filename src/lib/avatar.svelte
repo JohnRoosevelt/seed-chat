@@ -2,7 +2,6 @@
   import { Identicon } from "svelte-identicons";
   import { createDialog } from "./dialog/dialog.svelte.js";
 	import Dialog from "$lib/dialog/index.svelte";
-  import DialogClose from "$lib/dialog/toggle.svelte";
 
   const dialoger = createDialog()
 
@@ -27,7 +26,7 @@
 </div>
 {/snippet}
 
-<Dialog {dialoger} autoClose>
+<Dialog {dialoger}>
   {#snippet outer()}
     {@render avatar({id, name, size})}
 	{/snippet}

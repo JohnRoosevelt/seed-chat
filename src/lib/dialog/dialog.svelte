@@ -1,6 +1,7 @@
 <script>
-	let { open = false, toggle = () => {}, children, autoClose = false } = $props();
+	let { open = false, toggle = () => {}, children, autoClose } = $props();
 
+	let dialog
 	function show(dialog, show) {
 		return {
 			update(open) {
@@ -13,16 +14,21 @@
 		};
 	}
 
-	function onclick (e) {
-		if (autoClose && e.target === document.querySelector("dialog")) {
-			toggle()
+	function onclick (event) {
+		var rect = dialog.getBoundingClientRect();
+		var isInDialog = (rect.top <= event.clientY && event.clientY <= rect.top + rect.height &&
+		rect.left <= event.clientX && event.clientX <= rect.left + rect.width);
+
+		console.log({autoClose, isInDialog})
+		if (!isInDialog && autoClose) {
+			toggle();
 		}
 	}
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<dialog bg-transparent use:show={open} {onclick}>
+<dialog bind:this={dialog} bg-transparent use:show={open} {onclick}>
 	{#if children}
 		{@render children()}
 	{/if}
