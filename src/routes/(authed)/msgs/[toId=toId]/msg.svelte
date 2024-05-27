@@ -2,9 +2,9 @@
   import Time from "svelte-time";
   import Avatar from "$lib/avatar.svelte";
 
-  const { msg = {}, data } = $props();
+  const { msg = {}, data, index } = $props();
 
-  let isMe = $derived(msg.id % 2);
+  let isMe = $derived(index % 2);
 
   const user = $derived(isMe ? data.user : data.toUser);
 </script>
@@ -17,7 +17,7 @@
   class:flex-row={!isMe}
 >
   <div flex-cx self-start>
-    <Avatar user={isMe ? data.user : data.toUser} />
+    <Avatar {user} />
   </div>
   <div
     flex-ce
@@ -48,7 +48,7 @@
         </div>
       {/if}
       <div flex>
-        <Time relative timestamp={msg.createdAt} />
+        <Time relative timestamp={msg.updatedAt} />
       </div>
     </div>
   {/if}

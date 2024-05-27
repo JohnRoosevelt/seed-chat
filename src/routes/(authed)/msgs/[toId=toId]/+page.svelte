@@ -1,13 +1,24 @@
 <script>
-  import { invalidateAll } from "$app/navigation";
   import Avatar from "$lib/avatar.svelte";
   import Msg from "./msg.svelte";
+  import { v4 as uuidV4 } from "uuid";
+  import { setChannel, initData, initChannelHistory } from "../../data.svelte";
 
   let disabled = $state(true);
   let content = $state("");
   let rows = $state(1);
 
   const { data } = $props();
+
+  const toUser = $derived(
+    initData.channels.find((i) => i.id === data.params.toId),
+  );
+  $effect.pre(() => {
+    initChannelHistory(data.params.toId);
+  });
+  const messages = $derived(
+    initData.channelMap[data.params.toId]?.messages || [],
+  );
 
   $effect(() => {
     if (content) disabled = false;
@@ -18,12 +29,10 @@
     rows = Math.min(Math.max(newlineCount, 1), 5);
   });
 
-  let msgs = $state([...data.messages]);
-
   let msgsDom;
   $effect(async () => {
     // reference `messages` so that this code re-runs whenever it changes
-    msgs.length;
+    messages.length;
 
     // autoscroll when new messages are added
     if (msgsDom.offsetHeight + msgsDom.scrollTop < msgsDom.scrollHeight - 5) {
@@ -45,16 +54,35 @@
       lastIndexOf--;
     }
     ary = ary.slice(0, lastIndexOf + 1);
-    const msg = { id: msgs.length, content: ary.join("\n") };
-    msgs.push(msg);
-    await data.msgsDB.setItem(String(msgs.length), msg);
-    await data.channelsDB.setItem(data.toUser.id, {
-      ...data.toUser,
-      msg: msg.content,
+    const msg = {
+      id: uuidV4(),
+      content: ary.join("\n"),
+      createdAt: Date.now(),
       updatedAt: Date.now(),
-    });
-    invalidateAll();
+    };
+
+    await Promise.all([
+      initData.channelMap[data.params.toId].sendMessage(msg),
+      setChannel(toUser.id, {
+        ...toUser,
+        msg: msg.content,
+        updatedAt: Date.now(),
+        hidden: false,
+      }),
+    ]);
     content = "";
+  }
+
+  async function clearHistory() {
+    await Promise.all([
+      initData.channelMap[data.params.toId].clear(),
+      setChannel(toUser.id, {
+        ...toUser,
+        msg: "",
+        hidden: true,
+      }),
+    ]);
+    history.back();
   }
 </script>
 
@@ -65,17 +93,10 @@
       返回
     </a>
     <div flex-cc gap-3>
-      <Avatar user={data.toUser} />
-      {data.toUser.name}
+      <Avatar user={toUser} />
+      {toUser.name}
     </div>
-    <button
-      onclick={async () => {
-        await data.msgsDB.dropInstance();
-        await data.channelsDB.removeItem(data.toUser.id)
-        invalidateAll();
-        history.back()
-      }}>删除</button
-    >
+    <button text-xs text-blue onclick={() => clearHistory()}>清除记录</button>
   </div>
 
   <article
@@ -89,8 +110,8 @@
     scroll-smooth
     scroll-y
   >
-    {#each msgs as msg}
-      <Msg {msg} {data} />
+    {#each messages as msg, index}
+      <Msg {msg} {data} {index} />
     {/each}
   </article>
 

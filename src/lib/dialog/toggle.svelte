@@ -3,15 +3,15 @@
 </script>
 
 {#snippet dialogbtn({toggle})}
-  <div onclick={toggle} >
+  <button onclick={toggle} >
     {#if ctrl}
       {@render ctrl()}
     {:else}
-      <button>
-        close
-      </button>
+      <span>
+        X
+      </span>
     {/if}
-  </div>
+  </button>
 {/snippet}
 
 {@render dialogbtn({...dialoger})}

@@ -1,6 +1,6 @@
 <script>
 	import { page } from "$app/stores";
-	let { data, children } = $props()
+	let { children } = $props()
 
 </script>
 

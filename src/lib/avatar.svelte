@@ -1,13 +1,18 @@
 <script>
   import { Identicon } from "svelte-identicons";
+  import { createDialog } from "./dialog/dialog.svelte.js";
+	import Dialog from "$lib/dialog/index.svelte";
+  import DialogClose from "$lib/dialog/toggle.svelte";
+
+  const dialoger = createDialog()
 
   const { user = {}, size = 9 } = $props();
 
-  const { id = 'xxx', name = 'xxx'} = user
+  const { id = "xxx", name = "xxx" } = user;
 </script>
 
+{#snippet avatar({id, name, size})}
 <div flex-bc rounded-2 overflow-hidden>
-  <!-- <span i-carbon-user-avatar text-4xl> </span> -->
   <Identicon
     seed={id}
     height={size}
@@ -17,5 +22,15 @@
     symetry="central"
     text={name}
     textColor="#ffffff"
+    textPosition="center"
   />
 </div>
+{/snippet}
+
+<Dialog {dialoger} autoClose>
+  {#snippet outer()}
+    {@render avatar({id, name, size})}
+	{/snippet}
+
+  {@render avatar({id, name, size: 90})}
+</Dialog>

@@ -1,8 +1,7 @@
 <script>
+  import { initData } from "../data.svelte";
   import Channel from "./channel.svelte";
   const { data } = $props();
-
-  let channels = $state([...data.channels]);
 </script>
 
 <article h-full flex-cc flex-col>
@@ -11,8 +10,8 @@
     <span i-carbon-add-large rotate-90 text-3xl> </span>
   </header>
   <article class="h-[calc(100%-72px)]" w-full space-y-1px scroll-y>
-    {#each channels as user}
-      <Channel {data} {user} />
+    {#each initData.channels as channel}
+      <Channel {data} {channel} />
     {/each}
   </article>
 </article>

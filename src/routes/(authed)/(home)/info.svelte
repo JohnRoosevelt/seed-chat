@@ -1,16 +1,16 @@
 <script>
   import Time from "svelte-time";
 
-  let { data, user } = $props();
+  let { data, channel } = $props();
 </script>
 
 <div w-full flex-bc flex-col>
   <div w-full flex-bc>
-    <div text-base>{user.name}</div>
-    <div text-gray text-xs><Time relative timestamp={user.updatedAt} /></div>
+    <div text-base>{channel.name}</div>
+    <div text-gray text-xs><Time relative timestamp={channel.updatedAt} /></div>
   </div>
   <div w-full flex-bc>
-    <div text-gray text-sm>{user.msg}</div>
-    <div text-xs>{user.isGroup}</div>
+    <div text-gray text-sm>{channel.msg}</div>
+    <div text-xs>{channel.hidden}</div>
   </div>
 </div>

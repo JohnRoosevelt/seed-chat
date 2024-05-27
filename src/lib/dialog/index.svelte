@@ -2,10 +2,10 @@
   import Dialog from "./dialog.svelte";
   import Toggle from "./toggle.svelte";
 
-  let { dialoger, outer, close, children } = $props();
+  let { dialoger, outer, close, children, autoClose } = $props();
 </script>
 
-<Dialog {...dialoger}>
+<Dialog {...dialoger} autoClose>
   {#if close} 
     <Toggle {dialoger} ctrl={close} />
   {/if}
