@@ -111,7 +111,7 @@
     scroll-y
   >
     {#each messages as msg, index}
-      <Msg {msg} {data} {index} />
+      <Msg {msg} {data} {toUser} {index} />
     {/each}
   </article>
 

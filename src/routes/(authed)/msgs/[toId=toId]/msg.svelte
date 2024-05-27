@@ -2,11 +2,11 @@
   import Time from "svelte-time";
   import Avatar from "$lib/avatar.svelte";
 
-  const { msg = {}, data, index } = $props();
+  const { msg = {}, data, toUser, index } = $props();
 
   let isMe = $derived(index % 2);
 
-  const user = $derived(isMe ? data.user : data.toUser);
+  const user = $derived(isMe ? data.user : toUser);
 </script>
 
 <article
