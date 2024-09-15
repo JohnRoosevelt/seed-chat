@@ -48,7 +48,7 @@ const demoData = [{
 }]
 
 export async function initDB() {
-	console.log('init db data')
+	console.log('init db')
 	initData.DBName = `DB${initData.user.id}`;
 	initData.channelsDB = localforage.createInstance({
 		name: initData.DBName,
@@ -59,9 +59,8 @@ export async function initDB() {
 	const len = await initData.channelsDB.length()
 
 	if (!len) {
-		console.log('init ......')
-		demoData.map(i => channelsDB.setItem(i.id, i))
-		await Promise.all(demoData.map(i => channelsDB.setItem(i.id, i)))
+		console.log('init chat channels ......')
+		await Promise.all(demoData.map(i => initData.channelsDB.setItem(i.id, i)))
 	}
 }
 
@@ -70,7 +69,7 @@ export async function initChannelHistory(id) {
 		const db = localforage.createInstance({
 			name: initData.DBName,
 			storeName: `messages${id}`,
-			description: `messages form ${id}`,
+			description: `messages history with ${id}`,
 		})
 
 		let messages = []
@@ -111,7 +110,6 @@ export async function initChannels() {
 
 export async function setChannel(id, val) {
 	await initData.channelsDB.setItem(id, val);
-	// await initChannels()
 	const channelIndex = initData.channels.findIndex(i => i.id === id)
 	initData.channels.splice(channelIndex, 1)
 	initData.channels.unshift(val)

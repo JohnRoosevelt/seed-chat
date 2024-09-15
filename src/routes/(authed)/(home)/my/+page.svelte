@@ -27,15 +27,15 @@
 	<div w-full flex-col space-y-1px>
 		<a href="#/" w-full flex-bc bg-white px-6 py-4>
 			<div flex-cc space-x-4>
-				<span i-carbon-phone text-blue600 text-2xl ></span>
+				<span i-carbon-phone text-blue600 text-2xl></span>
 				<div>反馈建议</div>
 			</div>
-			<div i-carbon-chevron-right text-2></div>
+			<div i-carbon-chevron-right text-2xl text-gray font-bold ></div>
 		</a>
-		<a href="#/" w-full flex-bc bg-white px-6 py-4>
+		<a href="/public/about" w-full flex-bc bg-white px-6 py-4>
 			<div flex-cc space-x-4>
 				<span i-carbon-bee-bat text-green600 text-2xl></span>
-				<div>贡献帮助</div>
+				<div>免责声明</div>
 			</div>
 			<div i-carbon-chevron-right text-2xl text-gray font-bold ></div>
 		</a>
@@ -47,6 +47,16 @@
 			<div i-carbon-chevron-right text-2xl text-gray font-bold></div>
 		</a>
 	</div>
+
+	<!-- <div w-full flex-col space-y-1px>
+		<a href="#/" w-full flex-bc bg-white px-6 py-4>
+			<div flex-cc space-x-4>
+				<span i-carbon-phone text-blue600 text-2xl></span>
+				<div>反馈建议</div>
+			</div>
+			<div i-carbon-chevron-right text-2xl text-gray font-bold ></div>
+		</a>
+	</div> -->
 
 	<!-- <form method="POST" action="/logout" w-full flex-cc bg-white px-6 py-4>
 		<button disabled text-primary>切换账号</button>
