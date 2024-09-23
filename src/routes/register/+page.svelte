@@ -69,6 +69,7 @@
 		<span i-icons-logo h-10 w-10 ></span>
 		<span text-gradient-tertiary-warning-error>一棵树，栽在溪水旁</span>
 	</header>
+	
 	<form
 		method="POST"
 		action="?/login"
@@ -82,8 +83,10 @@
 		<div>
 			<label
 				for="email"
-				class="block text-sm font-medium leading-6 text-gray-900">邮箱</label
-			>
+				class="block text-sm font-medium leading-6 text-gray-900">
+				邮箱
+			</label>
+
 			<div class="relative mt-2 rounded-md shadow-sm">
 				<input
 					type="email"
@@ -104,6 +107,7 @@
 					</div>
 				{/if}
 			</div>
+
 			{#if $errors.email}
 				<p class="mt-2 text-sm text-red-500" id="email-error">
 					{$errors.email}
@@ -116,6 +120,7 @@
 
 		<button btn-primary>注册并登录</button>
 	</form>
+
 	<a mt-10 href="/login" text-sm text-primary-600>
 		已有账号？去登录
 	</a>

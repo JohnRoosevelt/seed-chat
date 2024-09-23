@@ -2,6 +2,7 @@ import { redirect, fail } from '@sveltejs/kit';
 import { superValidate, message } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { z } from 'zod';
+import { registerEmailPassword } from '$lib';
 
 export const ssr = false
 // Define outside the load function so the adapter can be cached
@@ -29,9 +30,11 @@ export const actions = {
     }
 
 		message(form, 'Form posted successfully!');
-
-    const user = btoa(JSON.stringify({name: 'test', id: '1000001'}));
-		cookies.set('jwt', user, { path: '/' });
-		throw redirect(303, url.searchParams.get('redirectTo') ?? '/');
+    const {email, password} = form.data
+    console.log({email, password})
+    await registerEmailPassword(email, password)
+    // const user = btoa(JSON.stringify({name: 'test', id: '1000001'}));
+		// cookies.set('jwt', user, { path: '/' });
+		// throw redirect(303, url.searchParams.get('redirectTo') ?? '/');
 	},
 };

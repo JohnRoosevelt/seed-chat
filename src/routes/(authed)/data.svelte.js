@@ -129,5 +129,6 @@ export async function init(config) {
 	if (initData.channels.length === 0) {
 		await initChannels()
 	}
+
 }
 
