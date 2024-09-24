@@ -7,7 +7,6 @@ export const app = new App({ id: REALM_APP_ID });
 
 export async function registerEmailPassword(email, password) {
 	await app.emailPasswordAuth.registerUser({ email, password });
-	// await app.emailPasswordAuth.confirmUser({ token, tokenId });
 
 	// await app.emailPasswordAuth.resendConfirmationEmail({ email });
 
@@ -37,6 +36,12 @@ export async function registerEmailPassword(email, password) {
 	// 	);
 	// }
 }
+
+export async function confirmRegisterEmail({ token, tokenId }) {
+	await app.emailPasswordAuth.confirmUser({ token, tokenId });
+}
+
+
 
 async function loginEmailPassword(email, password) {
 	// Create an email/password credential
