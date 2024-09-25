@@ -23,7 +23,7 @@
     console.log({ statusCode, errorCode, error });
     isSuccess = statusCode === 200;
     errorInfo = `${errorCode}, ${error}! 5秒后自动返回注册界面`;
-    if (errorInfo) {
+    if (!isSuccess) {
       setTimeout(() => {
         goto('/register')
       }, 5000);
