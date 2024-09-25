@@ -3,10 +3,10 @@
 
 	// export let data;
 	let {data} = $props()
-
 	// Client API:
 	const rz = superForm(data.form);
-	const { form, errors, constraints, enhance } = rz
+	const { form, errors, constraints, enhance, message } = rz
+
 	let showPassword = $state(false);
 	function toggleShowPassword() {
 		showPassword = !showPassword;
@@ -117,6 +117,15 @@
 
 		<button btn-primary>登录</button>
 	</form>
+
+	{#if $message}
+		<div text-red-600 mt-2>
+			<span>{$message.errorCode}</span>
+			<span>:</span>
+			<span>{$message.error}</span>
+		</div>
+	{/if}
+	
 	<a mt-10 href="/register" text-sm text-primary-600>
 		没有账号？马上注册一个
 	</a>

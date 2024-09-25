@@ -4,7 +4,7 @@
 	export let data;
 
 	// Client API:
-	const { form, errors, constraints, enhance } = superForm(data.form);
+	const { form, errors, constraints, enhance, message } = superForm(data.form);
 	let showPassword = false;
 	function toggleShowPassword() {
 		showPassword = !showPassword;
@@ -120,6 +120,12 @@
 
 		<button btn-primary>注册并登录</button>
 	</form>
+
+	{#if $message}
+		<div p-5 text-3 mt-2 class="{$message.statusCode === 200 ? 'text-green-600' : 'text-red-600'}">
+			<span>{$message.text}</span>
+		</div>
+	{/if}
 
 	<a mt-10 href="/login" text-sm text-primary-600>
 		已有账号？去登录

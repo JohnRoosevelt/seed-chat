@@ -31,8 +31,11 @@ export const actions = {
 
 		message(form, 'Form posted successfully!');
     const {email, password} = form.data
-    console.log({email, password})
-    await registerEmailPassword(email, password)
+    const {statusCode, errorCode, error} = await registerEmailPassword(email, password)
+    console.log({email, password, statusCode, errorCode, error})
+
+    return message(form, {statusCode, text: statusCode === 200 ? '确认邮件已经发送成功！关闭此页面后，在邮箱中点击确认链接进行下一步。': `${errorCode}: ${error}`}, { status: statusCode })
+
     // const user = btoa(JSON.stringify({name: 'test', id: '1000001'}));
 		// cookies.set('jwt', user, { path: '/' });
 		// throw redirect(303, url.searchParams.get('redirectTo') ?? '/');
