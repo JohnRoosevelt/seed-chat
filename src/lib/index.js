@@ -46,7 +46,7 @@ export async function registerEmailPassword(email, password) {
 export async function confirmRegisterEmail({ token, tokenId }) {
 	try {
 		const rz = await app.emailPasswordAuth.confirmUser({ token, tokenId });
-		return rz
+		return { ...rz, statusCode: 200 }
 	} catch (error) {
 		return error
 	}
