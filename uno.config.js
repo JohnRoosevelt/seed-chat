@@ -56,6 +56,8 @@ export default defineConfig({
       extraProperties: {
         'display': 'inline-block',
         'vertical-align': 'middle',
+        'width': '1em',
+        'height': '1em',
       },
       scale: 1,
       warn: true,
