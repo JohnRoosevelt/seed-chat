@@ -12,7 +12,7 @@
 </script>
 
 <main
-	class="flex justify-center items-center w-full"
+	class="flex-cc w-full min-h-screen bg-gray-100"
 	sm="w-[390px]"
 >
 	{@render children()}

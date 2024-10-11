@@ -1,4 +1,4 @@
-import { init, initData } from './data.svelte.js';
+import { init, initData } from '$lib/data.svelte.js';
 
 export async function load({ data }) {
 	if (!initData.user)

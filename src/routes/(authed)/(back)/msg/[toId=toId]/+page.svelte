@@ -2,7 +2,7 @@
   import Avatar from "$lib/avatar.svelte";
   import Msg from "./msg.svelte";
   import { v4 as uuidV4 } from "uuid";
-  import { setChannel, initData, initChannelHistory } from "../../data.svelte";
+  import { setChannel, initData, initChannelHistory } from "$lib/data.svelte";
 
   let disabled = $state(true);
   let content = $state("");
@@ -88,10 +88,10 @@
 
 <article w-screen h-screen bg-gray-100 flex flex-col>
   <div w-full h-72px px-5 flex-bc>
-    <a href="/" flex-cc>
+    <button flex-cc onclick="{() => history.back()}">
       <span i-carbon-chevron-left text-2xl></span>
       返回
-    </a>
+    </button>
     <div flex-cc gap-3>
       <Avatar user={toUser} />
       {toUser.name}
