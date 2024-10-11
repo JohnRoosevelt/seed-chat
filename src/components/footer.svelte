@@ -5,18 +5,28 @@
   // })
 </script>
 
-<footer class="h-72px flex items-center justify-between" px-10 bg-gray-50>
-  <a href="/public/articles" flex flex-col class:text-blue={$page.url.pathname === "/public/articles"}>
+<footer class="h-72px flex items-center justify-between" px-8 bg-gray-50>
+  <a href="/" flex-cc flex-col class:text-blue={$page.url.pathname === "/"}>
     <span i-carbon-home text-4xl> </span>
-    <span text-xs uppercase> 文章 </span>
+    <span text-xs uppercase> 首页 </span>
   </a>
 
-  <a href="/msgs" flex flex-col class:text-blue={$page.url.pathname === "/msgs"}>
-    <span i-carbon-chat text-4xl> </span>
-    <span text-xs uppercase> 消息 </span>
+  <a href="/bible" flex-cc flex-col class:text-blue={$page.url.pathname === "/bible"}>
+    <span i-icons-bible text-4xl> </span>
+    <span text-xs uppercase> 圣经 </span>
   </a>
 
-  <a href="/user" flex flex-col class:text-blue={$page.url.pathname === "/user"}>
+  <a href="/sda" flex-cc flex-col class:text-blue={$page.url.pathname === "/sda"}>
+    <span i-icons-sda text-4xl> </span>
+    <span text-xs uppercase> 怀著 </span>
+  </a>
+
+  <a href="/music" flex-cc flex-col class:text-blue={$page.url.pathname === "/music"}>
+    <span i-carbon-music text-4xl> </span>
+    <span text-xs uppercase> 音乐 </span>
+  </a>
+
+  <a href="/user" flex-cc flex-col class:text-blue={$page.url.pathname === "/user"}>
     <span alt="icon" i-carbon-user-settings text-4xl></span>
     <span text-xs uppercase> 我的 </span>
   </a>

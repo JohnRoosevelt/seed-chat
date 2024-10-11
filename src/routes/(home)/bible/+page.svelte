@@ -1,0 +1,1 @@
+<iframe src="http://bb.fuyinchina.com/" title="bible" frameborder="0" w-full h-full></iframe>
