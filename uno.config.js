@@ -98,7 +98,7 @@ export default defineConfig({
     }
   ],
   safelist: [
-    'bg-blue', 'bg-green',
+    'bg-blue', 'bg-green', 'text-blue', 'text-green',
   ],
   content: {
     inline: [

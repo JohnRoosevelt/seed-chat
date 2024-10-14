@@ -4,6 +4,7 @@ import { message } from "sveltekit-superforms";
 // TODO:: pnpm i -D sort-by match-sorter
 
 export const initData = $state({
+	datas: {},
 	user: null,
 	socket: null,
 	DBName: null,
