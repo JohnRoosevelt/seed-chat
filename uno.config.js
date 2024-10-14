@@ -20,6 +20,7 @@ import {
 import { presetAtoUI } from 'ato-ui/preset';
 import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
 import path from "path";
+import { readdir } from "fs/promises";
 
 export default defineConfig({
   extractors: [extractorSvelte()],
