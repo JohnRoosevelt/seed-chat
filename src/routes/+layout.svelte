@@ -12,7 +12,7 @@
 </script>
 
 <main
-	class="flex-cc w-full min-h-screen bg-gray-100"
+	class="w-screen h-screen"
 	sm="w-[390px]"
 >
 	{@render children()}
