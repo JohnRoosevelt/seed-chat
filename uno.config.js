@@ -96,4 +96,16 @@ export default defineConfig({
       },
     }
   ],
+  safelist: [
+    'bg-blue', 'bg-green',
+  ],
+  content: {
+    inline: [
+      async () => {
+        const iconDir = path.resolve("static/icons");
+        const icons = (await readdir(iconDir) || []).filter(name => name != '.DS_Store').map(file => `i-icons-${path.parse(file).name}`);
+        return icons.join(' ')
+      },
+    ],
+  },
 });
