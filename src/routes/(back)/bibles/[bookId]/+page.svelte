@@ -14,7 +14,7 @@
   {book.name?.zh} 目录
 </Header>
 
-<article scroll-y w-full flex-cc class="min-h-[calc(100vh-72px)]">
+<article scroll-y w-full flex-cc text-7 class="h-[calc(100vh-72px)]">
   <div w-full grid grid-cols-6 gap-px>
     {#each book.chapters as chapter}
       <a
@@ -24,7 +24,7 @@
         relative
         class="bg-{book.title == '旧约' ? 'blue' : 'green'}"
       >
-        {chapter.id} 章
+        {chapter.id}章
       </a>
     {/each}
   </div>

@@ -17,11 +17,27 @@
   第 {chapter.id} 章
 </Header>
 
-<article w-full px-5 class="min-h-[calc(100vh-72px)]">
+<article scroll-y w-full px-5 text-7 class="h-[calc(100vh-144px)]">
   <p>
     {#each chapter.verses as verse}
-      <sub ml-1 class="text-{book.title == '旧约' ? 'blue': 'green'}">{verse.id} </sub>
+      <sup ml-1 class="text-{book.title == '旧约' ? 'blue' : 'green'}"
+        >{verse.id}
+      </sup>
       {verse.text.zh}
     {/each}
   </p>
 </article>
+
+<footer w-full h-72px px-5 flex-bc font-700>
+  <a href="/bibles/{$page.params.bookId}/{$page.params.chapterId - 1}">
+    上一章
+  </a>
+
+  <button>章节目录</button>
+
+  <button>圣经目录 </button>
+
+  <a href="/bibles/{$page.params.bookId}/{$page.params.chapterId - 1 + 2}">
+    下一章
+  </a>
+</footer>
