@@ -5,7 +5,7 @@
 	let { user } = data;
 </script>
 
-<article h-full space-y-4>
+<article w-full h-full space-y-4>
 	<a href="#/" w-full bg-white flex flex-col px-6 pt-16 pb-6>
 		<div flex class="justify-between items-center" space-x-4>
 			<Avatar {user} size=12 />

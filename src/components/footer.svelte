@@ -5,7 +5,7 @@
   // })
 </script>
 
-<footer class="h-72px flex items-center justify-between" px-8 bg-gray-50>
+<footer fixed bottom-0 z-9 w-full h-72px flex-bc px-8 bg-gray-50>
   <a href="/" flex-cc flex-col class:text-blue={$page.url.pathname === "/"}>
     <span i-carbon-home text-4xl> </span>
     <span text-xs uppercase> 首页 </span>

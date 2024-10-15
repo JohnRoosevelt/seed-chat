@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 	import Footer from '$com/footer.svelte'
 	let { children } = $props()
 </script>
@@ -9,4 +9,16 @@
 	</main>
 
 	<Footer />
+</article> -->
+
+
+<script>
+	import Footer from '$com/footer.svelte'
+	let { children } = $props()
+</script>
+
+<article w-full h-full flex-cc pb-72px bg-gray-100>
+	{@render children()}
 </article>
+
+<Footer />
