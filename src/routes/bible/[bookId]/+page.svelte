@@ -3,13 +3,14 @@
   import { page } from "$app/stores";
   import { initData } from "$lib/data.svelte";
 
-  let book = $state.raw({});
+  let book = $state({});
   $effect.pre(() => {
     book = initData.datas.bible.find((i) => i.id == $page.params.bookId);
+    console.log(book);
   });
 </script>
 
-<Header>
+<Header back={() => history.back()}>
   {book.title}
   {book.name?.zh} 目录
 </Header>
@@ -18,7 +19,7 @@
   <div w-full grid grid-cols-6 gap-px>
     {#each book.chapters as chapter}
       <a
-        href="/bibles/{book.id}/{chapter.id}"
+        href="/bible/{book.id}/{chapter.id}"
         flex-cc
         h-12
         relative

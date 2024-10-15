@@ -1,15 +1,8 @@
 <script>
-	let { children } = $props()
+	let { children, color } = $props()
 </script>
 
-<div w-full h-72px px-5 flex-bc>
-  <button flex-cc onclick="{() => history.back()}">
-    <span i-carbon-chevron-left text-2xl></span>
-    返回
-  </button>
-  {#if children}  
-  <div flex-1 flex-cc>
-    {@render children()}
-  </div>
-  {/if}
+<!-- backdrop-blur-4 -->
+<div fixed top-0 z-9 bg-white w-full h-72px px-5 flex-bc class="text-{color}">
+  {@render children()}
 </div>

@@ -11,13 +11,23 @@
   });
 </script>
 
-<Header>
-  {book.title}
-  {book.name?.zh}
-  第 {chapter.id} 章
+<Header
+  back={() => history.back()}
+  color={book.title == "旧约" ? "blue" : "green"}
+>
+  <a href="/bible" flex-cc>
+    <span i-carbon-chevron-left text-2xl></span>
+    <span> 返回 </span>
+  </a>
+
+  <div flex-1 flex-cc>
+    {book.title}
+    {book.name?.zh}
+    第 {chapter.id} 章
+  </div>
 </Header>
 
-<article scroll-y w-full px-5 text-7 class="h-[calc(100vh-144px)]">
+<article  w-full px-5 text-7 py-72px>
   <p>
     {#each chapter.verses as verse}
       <sup ml-1 class="text-{book.title == '旧约' ? 'blue' : 'green'}"
@@ -28,8 +38,16 @@
   </p>
 </article>
 
-<footer w-full h-72px px-5 flex-bc font-700>
-  <a href="/bibles/{$page.params.bookId}/{$page.params.chapterId - 1}">
+<footer fixed bottom-0
+  w-full
+  h-72px
+  px-5
+  backdrop-blur-40
+  bg-white
+  flex-bc
+  class="text-{book.title == '旧约' ? 'blue' : 'green'}"
+>
+  <a href="/bible/{$page.params.bookId}/{$page.params.chapterId - 1}">
     上一章
   </a>
 
@@ -37,7 +55,7 @@
 
   <button>圣经目录 </button>
 
-  <a href="/bibles/{$page.params.bookId}/{$page.params.chapterId - 1 + 2}">
+  <a href="/bible/{$page.params.bookId}/{$page.params.chapterId - 1 + 2}">
     下一章
   </a>
 </footer>
