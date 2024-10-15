@@ -11,14 +11,14 @@
     <span text-xs uppercase> 首页 </span>
   </a>
 
-  <a href="/bible" flex-cc flex-col class:text-blue={$page.url.pathname === "/bible"}>
-    <span i-icons-bible text-4xl> </span>
-    <span text-xs uppercase> 圣经 </span>
-  </a>
-
   <a href="/sda" flex-cc flex-col class:text-blue={$page.url.pathname === "/sda"}>
     <span i-icons-sda text-4xl> </span>
     <span text-xs uppercase> 怀著 </span>
+  </a>
+  
+  <a href="/bible" flex-cc flex-col class:text-blue={$page.url.pathname === "/bible"}>
+    <span i-icons-bible text-4xl> </span>
+    <span text-xs uppercase> 圣经 </span>
   </a>
 
   <a href="/music" flex-cc flex-col class:text-blue={$page.url.pathname === "/music"}>

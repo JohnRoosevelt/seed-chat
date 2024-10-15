@@ -98,7 +98,8 @@ export default defineConfig({
     }
   ],
   safelist: [
-    'bg-blue', 'bg-green', 'text-blue', 'text-green',
+    'bg-blue', 'bg-green', 
+    ...Array.from('text-blue text-green text-4 text-5 text-6 text-7'.split(' ')),
   ],
   content: {
     inline: [
