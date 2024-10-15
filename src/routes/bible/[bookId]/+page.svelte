@@ -2,6 +2,7 @@
   import Header from "$com/header.svelte";
   import { page } from "$app/stores";
   import { initData } from "$lib/data.svelte";
+  import Chapter from "$com/bible/chapter.index.svelte";
 
   let book = $state({});
   $effect.pre(() => {
@@ -16,17 +17,5 @@
 </Header>
 
 <article scroll-y w-full flex-cc text-7 class="h-[calc(100vh-72px)]">
-  <div w-full grid grid-cols-6 gap-px>
-    {#each book.chapters as chapter}
-      <a
-        href="/bible/{book.id}/{chapter.id}"
-        flex-cc
-        h-12
-        relative
-        class="bg-{book.title == '旧约' ? 'blue' : 'green'}"
-      >
-        {chapter.id}章
-      </a>
-    {/each}
-  </div>
+  <Chapter {book} />
 </article>
