@@ -1,5 +1,5 @@
 import { initData } from '$lib/data.svelte.js';
-import { fetchBibleData, isBibleDataStored, getBibleData, storeBibleData } from '$lib/datas/bible';
+import { fetchsdaData } from '$lib/datas/bible';
 import localforage from 'localforage';
 
 export const ssr = false
@@ -8,26 +8,26 @@ export const ssr = false
 export async function load() {
   localforage.config({
     driver: [localforage.INDEXEDDB, localforage.LOCALSTORAGE, localforage.WEBSQL],
-    name: 'seed_bibleApp',
+    name: 'seed_sdaApp',
   });
 
-  if (!initData.datas.bible) {
-    const stored = await isBibleDataStored(localforage);
+  if (!initData.datas.sda) {
+    const sdaData = await localforage.getItem('sdaData');
 
-    if (stored) {
+    if (sdaData) {
       try {
-        initData.datas.bible = await getBibleData(localforage);
+        initData.datas.sda = sdaData;
       } catch (error) {
         console.error(error);
       }
     } else {
       try {
         // message = "正在下载数据";
-        const data = await fetchBibleData()
-        initData.datas.bible = data
+        const data = await fetchsdaData()
+        initData.datas.sda = data
         try {
           // message = '正在初始化数据'
-          await storeBibleData(localforage, data);
+          await localforage.setItem('sdaData', data);
         } catch (error) {
           console.error(error)
           // message = "初始化数据出错";
@@ -40,5 +40,5 @@ export async function load() {
     }
   }
 
-  return { books: initData.datas.bible }
+  return { books: initData.datas.sda }
 }
