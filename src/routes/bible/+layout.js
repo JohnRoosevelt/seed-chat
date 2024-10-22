@@ -1,5 +1,4 @@
-import { fetchBibleIndexData } from '$lib/datas/bible';
-import localforage from 'localforage';
+import { fetchBibleIndexData, getDB } from '$lib/datas/bible';
 
 export const ssr = false
 
@@ -9,14 +8,7 @@ export async function load() {
   let bible = []
 
   try {
-    localforage.config({
-      driver: [localforage.INDEXEDDB, localforage.LOCALSTORAGE, localforage.WEBSQL],
-    });
-
-    const bibleDB = localforage.createInstance({
-      name: 'seed',
-      storeName: 'bible'
-    });
+    const bibleDB = getDB('bible');
 
     let storedIndex = await bibleDB.getItem('index');
     if (!storedIndex) {

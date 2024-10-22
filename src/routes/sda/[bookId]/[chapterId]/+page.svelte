@@ -1,16 +1,38 @@
 <script>
   import Header from "$com/header.svelte";
   import { page } from "$app/stores";
+  import { getDB } from "$lib/datas/bible";
 
   const { data } = $props();
 
-  let textSize = $state(7);
+  let fontSize = $state(7);
+  let settingDB;
+  $effect(async () => {
+    if (!settingDB) {
+      settingDB = getDB("setting");
+    }
+
+    const dbFontSize = await settingDB.getItem("fontSize");
+    if (!dbFontSize) {
+      await settingDB.setItem("fontSize", fontSize);
+      return;
+    }
+    fontSize = dbFontSize;
+  });
+
+  async function onFontSizeChange(isBigger) {
+    isBigger
+      ? fontSize < 7
+        ? fontSize++
+        : fontSize
+      : fontSize > 4
+        ? fontSize--
+        : fontSize;
+    await settingDB.setItem("fontSize", fontSize);
+  }
 </script>
 
-<Header
-  back={() => history.back()}
-  color="green"
->
+<Header back={() => history.back()} color="green">
   <a href="/sda" flex-cc>
     <span i-carbon-chevron-left text-2xl></span>
     <span> 返回 </span>
@@ -21,17 +43,17 @@
   </div>
 
   <div space-x-2px>
-    <button aria-label="-" onclick={() => (textSize > 4 ? textSize-- : "")}>
+    <button aria-label="-" onclick={() => onFontSizeChange(false)}>
       <span i-ic-outline-text-decrease></span>
     </button>
-    <span>{textSize}</span>
-    <button aria-label="+" onclick={() => (textSize < 7 ? textSize++ : "")}>
+    <span>{fontSize}</span>
+    <button aria-label="+" onclick={() => onFontSizeChange(true)}>
       <span i-ic-outline-text-increase></span>
     </button>
   </div>
 </Header>
 
-<article w-full px-5 py-72px space-y-2 class="text-{textSize}">
+<article w-full px-5 py-72px space-y-2 class="text-{fontSize}">
   {#each data.chapter?.content as verse, i}
     <p relative>
       {#if verse.type == 7}

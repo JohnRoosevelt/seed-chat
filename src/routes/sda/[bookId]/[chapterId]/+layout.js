@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import { fetchSdaBookData } from '$lib/datas/bible';
-import localforage from 'localforage';
+import { getDB } from '$lib/datas/bible.js';
 
 export const ssr = false
 
@@ -11,14 +11,7 @@ export async function load({ parent, params: { bookId, chapterId } }) {
   console.log({book})
 
   try {
-    localforage.config({
-      driver: [localforage.INDEXEDDB, localforage.LOCALSTORAGE, localforage.WEBSQL],
-    });
-
-    const sdaDB = localforage.createInstance({
-      name: 'seed',
-      storeName: 'sda'
-  });
+    const sdaDB = getDB('sda');
 
     let storedBook = await sdaDB.getItem(bookId);
     if (!storedBook) {

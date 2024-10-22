@@ -1,26 +1,18 @@
 import { redirect } from '@sveltejs/kit';
-import { fetchBibleBookData } from '$lib/datas/bible';
-import localforage from 'localforage';
+import { fetchBibleBookData, getDB } from '$lib/datas/bible';
 
 export const ssr = false
 
 
 export async function load({ parent, params: { bookId, chapterId } }) {
-  const { bible} = await parent()  
+  const { bible } = await parent()
   const book = bible.find(i => i.id == bookId)
 
   const preBookId = bookId == 1 ? bookId : Number(bookId) - 1
   const nextBookId = bookId == bible.length ? bookId : Number(bookId) + 1
 
   try {
-    localforage.config({
-      driver: [localforage.INDEXEDDB, localforage.LOCALSTORAGE, localforage.WEBSQL],
-    });
-
-    const bibleDB = localforage.createInstance({
-      name: 'seed',
-      storeName: 'bible'
-  });
+    const bibleDB = getDB('bible')
 
     let storedBook = await bibleDB.getItem(bookId);
     if (!storedBook) {
@@ -45,7 +37,7 @@ export async function load({ parent, params: { bookId, chapterId } }) {
 
 
   const chapter = book.chapters.find(i => i.id == chapterId)
-  console.log( { bookId, chapterId, book, chapter })
+  console.log({ bookId, chapterId, book, chapter })
 
   return { book, chapter }
 }
