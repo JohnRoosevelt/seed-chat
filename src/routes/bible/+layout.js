@@ -1,44 +1,29 @@
-import { initData } from '$lib/data.svelte.js';
-import { fetchBibleData, isBibleDataStored, getBibleData, storeBibleData } from '$lib/datas/bible';
+import { fetchBibleIndexData } from '$lib/datas/bible';
 import localforage from 'localforage';
 
 export const ssr = false
 
 
 export async function load() {
-  localforage.config({
-    driver: [localforage.INDEXEDDB, localforage.LOCALSTORAGE, localforage.WEBSQL],
-    name: 'seed_bibleApp',
-  });
 
-  if (!initData.datas.bible) {
-    const stored = await isBibleDataStored(localforage);
+  let books = []
 
-    if (stored) {
-      try {
-        initData.datas.bible = await getBibleData(localforage);
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      try {
-        // message = "正在下载数据";
-        const data = await fetchBibleData()
-        initData.datas.bible = data
-        try {
-          // message = '正在初始化数据'
-          await storeBibleData(localforage, data);
-        } catch (error) {
-          console.error(error)
-          // message = "初始化数据出错";
-        }
-      } catch (error) {
-        console.error(error);
-        // message = "下载数据出错";
-      }
+  try {
 
+    localforage.config({
+      driver: [localforage.INDEXEDDB, localforage.LOCALSTORAGE, localforage.WEBSQL],
+      name: 'seed_bibleApp',
+    });
+
+    let storedIndex = await localforage.getItem('index');
+    if (!storedIndex) {
+      storedIndex = await fetchBibleIndexData()
+      await localforage.setItem('index', storedIndex);
     }
+    books = storedIndex
+  } catch (error) {
+    console.error(error);
   }
 
-  return { books: initData.datas.bible }
+  return { books }
 }

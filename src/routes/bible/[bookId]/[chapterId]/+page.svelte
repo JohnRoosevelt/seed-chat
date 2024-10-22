@@ -1,55 +1,15 @@
 <script>
   import Header from "$com/header.svelte";
   import { page } from "$app/stores";
-  import { initData } from "$lib/data.svelte";
-  import { goto } from "$app/navigation";
 
-  let book = $state({});
-  let chapter = $state({});
+  const { data } = $props();
+  
   let textSize = $state(7);
-  $effect.pre(() => {
-    book = initData.datas.bible.find((i) => i.id == $page.params.bookId);
-    chapter = book.chapters.find((i) => i.id == $page.params.chapterId);
-
-    if ($page.params.chapterId == 0) {
-      let preBook, chapterId;
-
-      if ($page.params.bookId == 1) {
-        preBook = book;
-        chapterId = 1;
-      } else {
-        preBook = initData.datas.bible.find(
-          (i) => i.id == Number($page.params.bookId) - 1,
-        );
-        chapterId = preBook.chapters.length;
-      }
-      goto(`/bible/${preBook.id}/${chapterId}`, {
-        replaceState: true,
-      });
-    }
-
-    if ($page.params.chapterId > book.chapters.length) {
-      let nextBook, chapterId;
-
-      if ($page.params.bookId == initData.datas.bible.length) {
-        nextBook = book;
-        chapterId = book.chapters.length;
-      } else {
-        nextBook = initData.datas.bible.find(
-          (i) => i.id == Number($page.params.bookId) + 1,
-        );
-        chapterId = 1;
-      }
-      goto(`/bible/${nextBook.id}/${chapterId}`, {
-        replaceState: true,
-      });
-    }
-  });
 </script>
 
 <Header
   back={() => history.back()}
-  color={book.title == "旧约" ? "blue" : "green"}
+  color={data.book.title == "旧约" ? "blue" : "green"}
 >
   <a href="/bible" flex-cc>
     <span i-carbon-chevron-left text-2xl></span>
@@ -57,17 +17,17 @@
   </a>
 
   <div>
-    {book.title}
-    {book.name?.zh}
-    第 {chapter?.id} 章
+    {data.book.title}
+    {data.book.name?.zh}
+    第 {data.chapter?.id} 章
   </div>
 
   <div space-x-2px>
-    <button onclick="{() => textSize > 4 ? textSize-- : ''}">
+    <button aria-label="-" onclick={() => (textSize > 4 ? textSize-- : "")}>
       <span i-ic-outline-text-decrease></span>
     </button>
     <span>{textSize}</span>
-    <button onclick="{() => textSize < 7 ? textSize++ : ''}">
+    <button aria-label="+" onclick={() => (textSize < 7 ? textSize++ : "")}>
       <span i-ic-outline-text-increase></span>
     </button>
   </div>
@@ -75,8 +35,8 @@
 
 <article w-full px-5 py-72px class="text-{textSize}">
   <p>
-    {#each chapter?.verses as verse}
-      <sup ml-1 class="text-{book.title == '旧约' ? 'blue' : 'green'}"
+    {#each data.chapter?.verses as verse}
+      <sup ml-1 class="text-{data.book.title == '旧约' ? 'blue' : 'green'}"
         >{verse.id}
       </sup>
       {verse.text.zh}
@@ -93,7 +53,7 @@
   backdrop-blur-40
   bg-white
   flex-bc
-  class="text-{book.title == '旧约' ? 'blue' : 'green'}"
+  class="text-{data.book.title == '旧约' ? 'blue' : 'green'}"
 >
   <a
     data-sveltekit-replacestate

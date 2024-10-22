@@ -1,14 +1,9 @@
 <script>
   import Header from "$com/header.svelte";
-  import { page } from "$app/stores";
-  import { initData } from "$lib/data.svelte";
   import Chapter from "$com/bible/chapter.index.svelte";
 
-  let book = $state({});
-  $effect.pre(() => {
-    book = initData.datas.bible.find((i) => i.id == $page.params.bookId);
-    console.log(book);
-  });
+  const { data } = $props();
+  const { book = {} } = data;
 </script>
 
 <Header back={() => history.back()}>

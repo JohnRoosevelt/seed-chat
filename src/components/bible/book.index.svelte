@@ -24,13 +24,12 @@
         bottom-0
         px-1
         py-px
-        flex-bc
+        flex-cc
         text-7px
         text-red
         font-700
       >
         <span>{book.name.zh}</span>
-        <span>{book.chapters.length}</span>
       </div>
     </a>
   {/each}
