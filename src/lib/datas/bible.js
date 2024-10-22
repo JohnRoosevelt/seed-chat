@@ -49,7 +49,18 @@ export async function fetchBibleData() {
   return indexData
 }
 
-export async function fetchsdaData() {
+export async function fetchSdaIndexData() {
+    const response = await fetch(`${R2}/sda/index.json`);
+    if (!response.ok) {
+        throw new Error("Failed to fetch sda data");
+    }
+    const indexData = await response.json();
+    console.log({ indexData })
+  
+    return indexData
+  }
+
+export async function fetchSdaData() {
   const response = await fetch(`${R2}/sda/index.json`);
   if (!response.ok) {
       throw new Error("Failed to fetch Bible data");
@@ -77,3 +88,13 @@ export async function fetchsdaData() {
 
   return indexData
 }
+
+export async function fetchSdaBookData(bookId) {
+    const response = await fetch(`${R2}/sda/${bookId}.json`);
+    if (!response.ok) {
+        throw new Error("Failed to fetch Bible data");
+    }
+    const book = await response.json();
+    console.log({ book })
+    return book
+  }

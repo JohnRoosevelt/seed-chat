@@ -1,51 +1,10 @@
 <script>
   import Header from "$com/header.svelte";
   import { page } from "$app/stores";
-  import { initData } from "$lib/data.svelte";
-  import { goto } from "$app/navigation";
 
-  let book = $state({});
-  let chapter = $state({});
+  const { data } = $props();
+
   let textSize = $state(7);
-  $effect.pre(() => {
-    book = initData.datas.sda.find((i) => i.id == $page.params.bookId);
-    chapter = book.chapters[Number($page.params.chapterId - 1)];
-    console.log(book, chapter);
-
-    if ($page.params.chapterId == 0) {
-      let preBook, chapterId;
-
-      if ($page.params.bookId == 1) {
-        preBook = book;
-        chapterId = 1;
-      } else {
-        preBook = initData.datas.bible.find(
-          (i) => i.id == Number($page.params.bookId) - 1,
-        );
-        chapterId = preBook.chapters.length;
-      }
-      goto(`/sda/${preBook.id}/${chapterId}`, {
-        replaceState: true,
-      });
-    }
-
-    if ($page.params.chapterId > book.chapters.length) {
-      let nextBook, chapterId;
-
-      if ($page.params.bookId == initData.datas.bible.length) {
-        nextBook = book;
-        chapterId = book.chapters.length;
-      } else {
-        nextBook = initData.datas.bible.find(
-          (i) => i.id == Number($page.params.bookId) + 1,
-        );
-        chapterId = 1;
-      }
-      goto(`/sda/${nextBook.id}/${chapterId}`, {
-        replaceState: true,
-      });
-    }
-  });
 </script>
 
 <Header
@@ -58,7 +17,7 @@
   </a>
 
   <div>
-    {book.name}
+    {data.book.name}
   </div>
 
   <div space-x-2px>
@@ -73,7 +32,7 @@
 </Header>
 
 <article w-full px-5 py-72px space-y-2 class="text-{textSize}">
-  {#each chapter?.content as verse, i}
+  {#each data.chapter?.content as verse, i}
     <p relative>
       {#if verse.type == 7}
         <span absolute text-green>
