@@ -1,12 +1,60 @@
 <!doctype html>
 <html lang="en" class="dark">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/icons/logo.svg" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		%sveltekit.head%
-	</head>
-	<body data-sveltekit-preload-data="hover" data-theme="ato" class="flex-cc">
-		<div style="display: contents">%sveltekit.body%</div>
-	</body>
+
+<head>
+	<meta charset="utf-8" />
+	<link rel="icon" href="%sveltekit.assets%/icons/logo.svg" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="mobile-web-app-capable" content="yes">
+	%sveltekit.head%
+</head>
+
+<body data-sveltekit-preload-data="hover" data-theme="ato" class="flex-cc">
+	<div style="display: contents">%sveltekit.body%</div>
+	<script>
+		let wakeLock;
+		let preventSleep;
+
+		async function requestWakeLock() {
+			try {
+				wakeLock = await navigator.wakeLock.request('screen');
+				console.log('Wake Lock is active!');
+
+				wakeLock.addEventListener('release', () => {
+					console.log('Wake Lock has been released');
+					wakeLock = undefined;
+				});
+			} catch (err) {
+				console.error(`${err.name}, ${err.message}`);
+				preventSleep = setInterval(() => {
+					if (preventSleep) {
+						console.log("Keeping the device awake...", preventSleep);
+					}
+				}, 10000);
+			}
+		}
+
+		async function releaseWakeLock() {
+			if (!wakeLock) {
+				await wakeLock.release();
+				console.log('Wake Lock has been released');
+				wakeLock = undefined;
+			}
+
+			if (preventSleep) {
+				clearInterval(preventSleep)
+				preventSleep = undefined
+			}
+		}
+
+		document.addEventListener('visibilitychange', async () => {
+			if (document.visibilityState === 'visible') {
+				await requestWakeLock();
+			} else {
+				await releaseWakeLock();
+			}
+		});
+	</script>
+</body>
+
 </html>
