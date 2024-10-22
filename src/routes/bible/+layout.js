@@ -6,24 +6,29 @@ export const ssr = false
 
 export async function load() {
 
-  let books = []
+  let bible = []
 
   try {
-
     localforage.config({
       driver: [localforage.INDEXEDDB, localforage.LOCALSTORAGE, localforage.WEBSQL],
-      name: 'seed_bibleApp',
     });
 
-    let storedIndex = await localforage.getItem('index');
+    const bibleDB = localforage.createInstance({
+      name: 'seed',
+      storeName: 'bible'
+    });
+
+    let storedIndex = await bibleDB.getItem('index');
     if (!storedIndex) {
       storedIndex = await fetchBibleIndexData()
-      await localforage.setItem('index', storedIndex);
+      await bibleDB.setItem('index', storedIndex);
     }
-    books = storedIndex
+    bible = storedIndex
   } catch (error) {
     console.error(error);
   }
 
-  return { books }
+  console.log({ bible })
+
+  return { bible }
 }

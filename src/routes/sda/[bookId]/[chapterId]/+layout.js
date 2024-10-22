@@ -11,16 +11,19 @@ export async function load({ parent, params: { bookId, chapterId } }) {
   console.log({book})
 
   try {
-
     localforage.config({
       driver: [localforage.INDEXEDDB, localforage.LOCALSTORAGE, localforage.WEBSQL],
-      name: 'seed_sdaApp',
     });
 
-    let storedBook = await localforage.getItem(bookId);
+    const sdaDB = localforage.createInstance({
+      name: 'seed',
+      storeName: 'sda'
+  });
+
+    let storedBook = await sdaDB.getItem(bookId);
     if (!storedBook) {
       storedBook = await fetchSdaBookData(bookId)
-      await localforage.setItem(bookId, storedBook);
+      await sdaDB.setItem(bookId, storedBook);
     }
     book.chapters = storedBook
 
@@ -34,7 +37,7 @@ export async function load({ parent, params: { bookId, chapterId } }) {
   }
 
   if (chapterId > book.chapters.length) {
-    throw redirect(303, `/sda/${book.id}/${chapterId}`);
+    throw redirect(303, `/sda/${book.id}/${book.chapters.length}`);
   }
 
 

@@ -10,18 +10,21 @@ export async function load() {
   try {
     localforage.config({
       driver: [localforage.INDEXEDDB, localforage.LOCALSTORAGE, localforage.WEBSQL],
-      name: 'seed_sdaApp',
     });
 
-    let storedIndex = await localforage.getItem('index');
+    const sdaDB = localforage.createInstance({
+      name: 'seed',
+      storeName: 'sda'
+    });
+    let storedIndex = await sdaDB.getItem('index');
     if (!storedIndex) {
       storedIndex = await fetchSdaIndexData()
-      await localforage.setItem('index', storedIndex);
+      await sdaDB.setItem('index', storedIndex);
     }
     books = storedIndex
   } catch (error) {
     console.log(error)
   }
-
+  console.log({ books })
   return { books }
 }

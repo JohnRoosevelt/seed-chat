@@ -21,11 +21,11 @@
   </div>
 
   <div space-x-2px>
-    <button onclick={() => (textSize > 4 ? textSize-- : "")}>
+    <button aria-label="-" onclick={() => (textSize > 4 ? textSize-- : "")}>
       <span i-ic-outline-text-decrease></span>
     </button>
     <span>{textSize}</span>
-    <button onclick={() => (textSize < 7 ? textSize++ : "")}>
+    <button aria-label="+" onclick={() => (textSize < 7 ? textSize++ : "")}>
       <span i-ic-outline-text-increase></span>
     </button>
   </div>

@@ -1,9 +1,9 @@
 <script>
-  const { books } = $props();
+  const { bible } = $props();
 </script>
 
 <div w-full grid grid-cols-6 gap-px>
-  {#each books as book}
+  {#each bible as book}
     <a
       href="/bible/{book.id}/1"
       flex-cc
