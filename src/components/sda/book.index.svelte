@@ -1,5 +1,5 @@
 <script>
-  const { books } = $props();
+  const { books, isCom = false } = $props();
   console.log(books);
 
   const groupByTag = books.reduce((pre, cur) => {
@@ -29,11 +29,18 @@
     // { name: "历代愿望", id: 3 },
     // { name: "历代愿望", id: 3 },
   ];
+
+  function stopPropagation(fn) {
+		return function (event) {
+      event.stopPropagation()
+			fn && fn.call(this, event);
+		};
+	}
 </script>
 
 {#snippet Rbook(book)}
 <div flex-bc h-12 px-3 pr-12 relative class="bg-gray-100">
-  <a flex-1 href="/sda/{book.id}/1">
+  <a flex-1 href="/sda/{book.id}/1" data-sveltekit-replacestate={isCom ? '' : undefined}>
     <p>
       {book.name}
     </p>
@@ -62,7 +69,7 @@
     </div>
   {/each}
 
-  <div
+  <button
     fixed
     z-5
     top-12
@@ -73,6 +80,7 @@
     text-green
     flex-col
     class="h-[calc(100vh-120px)]"
+    onclick={stopPropagation()}
   >
     <a href="#fav" data-sveltekit-replacestate aria-label="fav">
       <span i-carbon-star-filled></span>
@@ -81,7 +89,7 @@
     {#each Object.entries(groupByTag) as [tag]}
       <a href="#{tag}" data-sveltekit-replacestate>{tag}</a>
     {/each}
-  </div>
+  </button>
 </div>
 
 <!-- <div hidden w-full bg-white space-y-px>

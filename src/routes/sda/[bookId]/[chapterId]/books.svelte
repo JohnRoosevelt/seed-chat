@@ -12,5 +12,5 @@
 <button onclick={dialog.toggle}>书籍目录</button>
 
 <Drawer {dialog}>
-  <Book {books} />
+  <Book {books} isCom />
 </Drawer>

@@ -3,7 +3,6 @@
   
 
   const {children, dialog} = $props()
-
 </script>
 
 <Dialog {...dialog} autoClose>
