@@ -6,6 +6,6 @@ export function createDialog() {
 
   return {
     get open() { return open },
-    toggle
+    toggle,
   }
 }

@@ -20,7 +20,7 @@ export async function load() {
     console.error(error);
   }
 
-  console.log({ bible })
+  // console.log({ bible })
 
   return { bible }
 }

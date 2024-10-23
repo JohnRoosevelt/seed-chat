@@ -5,7 +5,7 @@
 
   const {bible} = data
 
-  console.log({bible})
+  // console.log({bible})
 </script>
 
 <Book {bible} />

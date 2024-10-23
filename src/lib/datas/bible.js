@@ -19,7 +19,7 @@ export async function fetchBibleIndexData() {
         throw new Error("Failed to fetch Bible data");
     }
     const indexData = await response.json();
-    console.log({ indexData })
+    // console.log({ indexData })
     return indexData
 }
 
@@ -29,7 +29,7 @@ export async function fetchBibleBookData(bookId) {
         throw new Error("Failed to fetch Bible data");
     }
     const book = await response.json();
-    console.log({ book })
+    // console.log({ book })
     return book
 }
 
@@ -39,7 +39,7 @@ export async function fetchBibleData() {
         throw new Error("Failed to fetch Bible data");
     }
     const indexData = await response.json();
-    console.log({ indexData })
+    // console.log({ indexData })
 
     const executing = new Set()
 
@@ -57,7 +57,7 @@ export async function fetchBibleData() {
     }
 
     await Promise.all(executing);
-    console.log({ indexData })
+    // console.log({ indexData })
 
     return indexData
 }
@@ -68,7 +68,7 @@ export async function fetchSdaIndexData() {
         throw new Error("Failed to fetch sda data");
     }
     const indexData = await response.json();
-    console.log({ indexData })
+    // console.log({ indexData })
 
     return indexData
 }
@@ -79,7 +79,7 @@ export async function fetchSdaData() {
         throw new Error("Failed to fetch Bible data");
     }
     const indexData = await response.json();
-    console.log({ indexData })
+    // console.log({ indexData })
 
     const executing = new Set()
 
@@ -97,7 +97,7 @@ export async function fetchSdaData() {
     }
 
     await Promise.all(executing);
-    console.log({ indexData })
+    // console.log({ indexData })
 
     return indexData
 }
@@ -108,6 +108,6 @@ export async function fetchSdaBookData(bookId) {
         throw new Error("Failed to fetch Bible data");
     }
     const book = await response.json();
-    console.log({ book })
+    // console.log({ book })
     return book
 }

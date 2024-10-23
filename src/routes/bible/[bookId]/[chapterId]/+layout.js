@@ -37,7 +37,7 @@ export async function load({ parent, params: { bookId, chapterId } }) {
 
 
   const chapter = book.chapters.find(i => i.id == chapterId)
-  console.log({ bookId, chapterId, book, chapter })
+  // console.log({ bookId, chapterId, book, chapter })
 
   return { book, chapter }
 }

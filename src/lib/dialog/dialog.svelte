@@ -19,16 +19,16 @@
 		var isInDialog = (rect.top <= event.clientY && event.clientY <= rect.top + rect.height &&
 		rect.left <= event.clientX && event.clientX <= rect.left + rect.width);
 
-		// console.log({autoClose, isInDialog})
+		console.log({autoClose, isInDialog}, {top: rect.top, height: rect.top + rect.height}, {y: event.clientY})
 		if (!isInDialog && autoClose) {
 			toggle();
 		}
 	}
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<dialog bind:this={dialog} bg-transparent use:show={open} {onclick}>
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+<dialog bind:this={dialog} relative bg-transparent use:show={open} {onclick}>
 	{#if children}
 		{@render children()}
 	{/if}
@@ -43,8 +43,8 @@
     dodgerblue,
     green
   );
-	backdrop-filter:blur(5px);
+	backdrop-filter:blur(50px);
 	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
-  opacity: 0.9;
+  opacity: 0.4;
 }
 </style>

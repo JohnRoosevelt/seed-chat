@@ -17,6 +17,6 @@ export async function load() {
   } catch (error) {
     console.log(error)
   }
-  console.log({ books })
+  // console.log({ books })
   return { books }
 }

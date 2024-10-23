@@ -3,6 +3,6 @@
 </script>
 
 <!-- backdrop-blur-4 -->
-<div fixed top-0 z-9 bg-white w-full h-72px px-5 flex-bc class="text-{color}">
+<div fixed top-0 z-9 bg-gray-50 w-full h-12 px-5 font-500 flex-bc class="text-{color}">
   {@render children()}
 </div>

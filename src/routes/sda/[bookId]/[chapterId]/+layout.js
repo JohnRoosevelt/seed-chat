@@ -1,6 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import { fetchSdaBookData } from '$lib/datas/bible';
-import { getDB } from '$lib/datas/bible.js';
+import { fetchSdaBookData, getDB } from '$lib/datas/bible';
 
 export const ssr = false
 
@@ -8,7 +7,7 @@ export const ssr = false
 export async function load({ parent, params: { bookId, chapterId } }) {
   const { books} = await parent()  
   const book = books.find(i => i.id == bookId)
-  console.log({book})
+  // console.log({book})
 
   try {
     const sdaDB = getDB('sda');
@@ -35,7 +34,7 @@ export async function load({ parent, params: { bookId, chapterId } }) {
 
 
   const chapter = book.chapters[Number(chapterId -1)]
-  console.log( { bookId, chapterId, book, chapter })
+  // console.log( { bookId, chapterId, book, chapter })
 
   return { book, chapter }
 }

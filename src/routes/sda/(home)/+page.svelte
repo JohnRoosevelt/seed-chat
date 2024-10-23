@@ -3,7 +3,7 @@
 
   const { data } = $props();
   const { books } = data;
-  console.log({books})
+  // console.log({books})
   // let books = $state(data.books)
 </script>
 
