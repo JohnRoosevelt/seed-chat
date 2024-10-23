@@ -31,39 +31,33 @@
   ];
 </script>
 
-<div w-full bg-white space-y-px text-5>
-  <div id="fav">
+{#snippet Rbook(book)}
+<div flex-bc h-12 px-3 pr-12 relative class="bg-gray-100">
+  <a flex-1 href="/sda/{book.id}/1">
+    <p>
+      {book.name}
+    </p>
+  </a>
+</div>
+{/snippet}
+
+<div w-full bg-white text-5>
+  <div id="fav" space-y-px>
     <div px-3 text-green sticky top-0 z-3 bg-white>
       <span i-carbon-star-filled></span>
     </div>
     {#each fav as book}
-      <a href="/sda/{book.id}/1" flex-bc h-12 px-3 relative class="bg-gray-100">
-        <p>
-          {book.name}
-          <!-- <span text-3>{book.chapters.length}</span> -->
-        </p>
-      </a>
+      {@render Rbook(book)}
     {/each}
   </div>
 
   {#each Object.entries(groupByTag) as [tag, group]}
-    <div id={tag}>
+    <div id={tag} space-y-px>
       <div px-3 text-green sticky top-0 z-3 bg-white>
         {tag}
       </div>
       {#each group as book}
-        <a
-          href="/sda/{book.id}/1"
-          flex-bc
-          h-12
-          px-3
-          relative
-          class="bg-gray-100"
-        >
-          <p>
-            {book.name}
-          </p>
-        </a>
+        {@render Rbook(book)}
       {/each}
     </div>
   {/each}
@@ -71,13 +65,13 @@
   <div
     fixed
     z-5
-    bottom-30
-    right-4
+    bottom-25
+    right-2
     bg-right
     flex-bc
     text-green
     flex-col
-    class="h-[calc(100vh-144px)]"
+    class="h-[calc(100vh-100px)]"
   >
     <a href="#fav" aria-label="fav">
       <span i-carbon-star-filled></span>
