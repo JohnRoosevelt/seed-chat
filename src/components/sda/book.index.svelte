@@ -1,6 +1,6 @@
 <script>
   const { books, isCom = false } = $props();
-  console.log(books);
+  // console.log(books);
 
   const groupByTag = books.reduce((pre, cur) => {
     if (!pre[cur.tag]) {
@@ -9,7 +9,7 @@
     pre[cur.tag].push(cur);
     return pre;
   }, {});
-  console.log(groupByTag);
+  // console.log(groupByTag);
 
   const fav = [
     { name: "先祖与先知", id: 1 },

@@ -6,7 +6,7 @@
   const dialog = createDialog();
 
   const { books } = $props();
-  console.log(books)
+  // console.log(books)
 </script>
 
 <button onclick={dialog.toggle}>书籍目录</button>

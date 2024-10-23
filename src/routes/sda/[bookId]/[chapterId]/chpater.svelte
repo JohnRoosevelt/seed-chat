@@ -6,9 +6,7 @@
   const dialog = createDialog();
 
   const { book } = $props();
-
-
-  console.log(book)
+  // console.log(book)
 </script>
 
 <button onclick={dialog.toggle}>章节目录</button>
