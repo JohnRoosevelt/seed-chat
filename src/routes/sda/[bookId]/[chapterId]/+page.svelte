@@ -2,6 +2,8 @@
   import Header from "$com/header.svelte";
   import { page } from "$app/stores";
   import { getDB } from "$lib/datas/bible";
+  import Books from "./books.svelte";
+  import Chpater from "./chpater.svelte";
 
   const { data } = $props();
 
@@ -38,8 +40,8 @@
     <span> 返回 </span>
   </a>
 
-  <div>
-    {data.book.name}
+  <div underline underline-offset-8>
+    {data.book.name} 第 {$page.params.chapterId} 章
   </div>
 
   <div space-x-2px>
@@ -53,7 +55,7 @@
   </div>
 </Header>
 
-<article w-full px-5 py-72px space-y-2 class="text-{fontSize}">
+<article w-full px-5 py-12 space-y-2 class="text-{fontSize}">
   {#each data.chapter?.content as verse, i}
     <p relative>
       {#if verse.type == 7}
@@ -70,7 +72,7 @@
   fixed
   bottom-0
   w-full
-  h-72px
+  h-12
   px-5
   backdrop-blur-40
   bg-white
@@ -84,9 +86,9 @@
     上一章
   </a>
 
-  <button>章节目录</button>
+  <Books books={data.books} />
 
-  <button>圣经目录 </button>
+  <Chpater book={data.book} />
 
   <a
     data-sveltekit-replacestate

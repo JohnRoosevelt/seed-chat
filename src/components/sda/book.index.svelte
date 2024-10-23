@@ -65,20 +65,21 @@
   <div
     fixed
     z-5
-    bottom-25
+    top-12
+    text-4
     right-2
     bg-right
     flex-bc
     text-green
     flex-col
-    class="h-[calc(100vh-100px)]"
+    class="h-[calc(100vh-120px)]"
   >
-    <a href="#fav" aria-label="fav">
+    <a href="#fav" data-sveltekit-replacestate aria-label="fav">
       <span i-carbon-star-filled></span>
     </a>
 
     {#each Object.entries(groupByTag) as [tag]}
-      <a href="#{tag}">{tag}</a>
+      <a href="#{tag}" data-sveltekit-replacestate>{tag}</a>
     {/each}
   </div>
 </div>

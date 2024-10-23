@@ -90,8 +90,8 @@
     上一章
   </a>
 
-  <Chpater book={data.book} />
   <Bible bible={data.bible} />
+  <Chpater book={data.book} />
 
   <a
     data-sveltekit-replacestate

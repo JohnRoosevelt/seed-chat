@@ -2,16 +2,18 @@
   const { book } = $props();
 </script>
 
-<div w-full grid grid-cols-6 gap-px>
-  {#each book.chapters as chapter}
+<div w-full bg-white space-y-px text-5>
+  {#each book.chapters as chapter, i}
     <a
-      href="/bible/{book.id}/{chapter.id}"
-      flex-cc
-      h-12
+      href="/sda/{book.id}/{i+1}"
+      h-10
+      flex
+      pl-3
+      items-center
+      bg-gray-100
       relative
-      class="bg-{book.title == '旧约' ? 'blue' : 'green'}"
     >
-      {chapter.id}章
+      {chapter.name}
     </a>
   {/each}
 </div>
