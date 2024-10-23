@@ -1,5 +1,5 @@
 <script>
-  const { book } = $props();
+  const { book, curIndex } = $props();
 </script>
 
 <div w-full bg-white space-y-px text-5>
@@ -12,6 +12,7 @@
       items-center
       bg-gray-100
       relative
+      class={curIndex-1 == i ? 'text-green' : ''}
     >
       {chapter.name}
     </a>

@@ -32,6 +32,8 @@
         : fontSize;
     await settingDB.setItem("fontSize", fontSize);
   }
+
+  console.log(data.chapter)
 </script>
 
 <Header back={() => history.back()} color="green">
@@ -41,7 +43,7 @@
   </a>
 
   <div underline underline-offset-8>
-    {data.book.name} 第 {$page.params.chapterId} 章
+    {data.book.name}
   </div>
 
   <div space-x-2px>
@@ -57,7 +59,7 @@
 
 <article w-full px-5 py-12 space-y-2 class="text-{fontSize}">
   {#each data.chapter?.content as verse, i}
-    <p relative>
+    <p relative bg-white class={verse.type == 2 ? 'flex-cc sticky top-12 z-3 font-500' : ''}>
       {#if verse.type == 7}
         <span absolute text-green>
           {i + 1}
@@ -88,7 +90,7 @@
 
   <Books books={data.books} />
 
-  <Chpater book={data.book} />
+  <Chpater book={data.book} curIndex={$page.params.chapterId} />
 
   <a
     data-sveltekit-replacestate

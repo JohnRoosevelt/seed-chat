@@ -72,14 +72,13 @@
   <button
     fixed
     z-5
-    top-12
     text-4
     right-2
     bg-right
     flex-bc
     text-green
     flex-col
-    class="h-[calc(100vh-120px)]"
+    class="h-[calc(100vh-120px)] {isCom ? 'bottom-0' : 'bottom-20'}"
     onclick={stopPropagation()}
   >
     <a href="#fav" data-sveltekit-replacestate aria-label="fav">

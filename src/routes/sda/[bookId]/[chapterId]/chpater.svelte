@@ -5,12 +5,12 @@
 
   const dialog = createDialog();
 
-  const { book } = $props();
+  const { book, curIndex } = $props();
   // console.log(book)
 </script>
 
 <button onclick={dialog.toggle}>章节目录</button>
 
 <Drawer {dialog}>
-  <Chapter {book} />
+  <Chapter {book} {curIndex} />
 </Drawer>
