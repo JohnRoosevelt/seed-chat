@@ -2,7 +2,8 @@
   import Header from "$com/header.svelte";
   import { page } from "$app/stores";
   import { getDB } from "$lib/datas/bible";
-    import Chpater from "./chpater.svelte";
+  import Chpater from "./chpater.svelte";
+  import Bible from "./bible.svelte";
 
   const { data } = $props();
 
@@ -90,8 +91,7 @@
   </a>
 
   <Chpater book={data.book} />
-
-  <button>圣经目录 </button>
+  <Bible bible={data.bible} />
 
   <a
     data-sveltekit-replacestate
