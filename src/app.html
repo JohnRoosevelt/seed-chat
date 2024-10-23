@@ -47,6 +47,8 @@
 			}
 		}
 
+		window.addEventListener('load', requestWakeLock);
+
 		document.addEventListener('visibilitychange', async () => {
 			if (document.visibilityState === 'visible') {
 				await requestWakeLock();
