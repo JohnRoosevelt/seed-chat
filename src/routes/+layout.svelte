@@ -12,7 +12,7 @@
 </script>
 
 <main
-	class="w-screen h-screen"
+	class="w-screen h-screen text-gray-900"
 	sm="w-[390px]"
 >
 	{@render children()}
