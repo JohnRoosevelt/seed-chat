@@ -58,14 +58,14 @@
 </Header>
 
 <article w-full px-5 py-12 space-y-2 class="text-{fontSize}">
-  {#each data.chapter?.content as verse, i}
-    <p relative bg-white class={verse.type == 2 ? 'flex-cc sticky top-12 z-3 font-500' : ''}>
-      {#if verse.type == 7}
-        <span absolute text-green>
-          {i + 1}
+  {#each data.chapter?.content as verse}
+    <p relative bg-white class={verse.t == 2 ? 'flex-cc h-6 sticky top-12 z-3 font-500' : verse.t == 4 ? 'h-6 sticky top-18 z-3 font-500' : ''}>
+      {#if verse.t == 7}
+        <span absolute text-green text-3>
+          ˹{verse.p}˺
         </span>
       {/if}
-      {verse.text.zh}
+      {verse.c.zh}
     </p>
   {/each}
 </article>
