@@ -11,6 +11,11 @@
     p:first-child {
       font-size: 20px;
       font-weight: 500;
+      position: sticky;
+      top: 0;
+      background: white;
+      width: 100%;
+      text-align: center;
     }
     p:not(:first-child)::first-letter {
       margin-left: 2em;
