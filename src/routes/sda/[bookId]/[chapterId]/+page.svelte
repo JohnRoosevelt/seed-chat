@@ -33,7 +33,7 @@
     await settingDB.setItem("fontSize", fontSize);
   }
 
-  console.log(data.chapter)
+  // console.log(data.chapter)
 </script>
 
 <Header back={() => history.back()} color="green">
