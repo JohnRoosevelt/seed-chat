@@ -13,7 +13,6 @@
 
 <main
 	class="w-screen h-screen text-gray-900"
-	sm="w-[390px]"
 >
 	{@render children()}
 </main>

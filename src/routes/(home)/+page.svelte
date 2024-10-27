@@ -1,4 +1,5 @@
 <script>
+  import Main from "$com/main.svelte";
   import Article from "$com/home/article.svelte";
   import { getDB } from "$lib/datas/bible";
 
@@ -21,4 +22,6 @@
   const size = $derived(`${fontSize * 4}px`)
 </script>
 
-<Article html={data.html} --font-size={size} />
+<Main>
+  <Article html={data.html} --font-size={size} />
+</Main>

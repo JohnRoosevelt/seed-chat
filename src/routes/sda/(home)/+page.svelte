@@ -1,4 +1,5 @@
 <script>
+  import Main from "$com/main.svelte";
   import Book from "$com/sda/book.index.svelte";
 
   const { data } = $props();
@@ -7,4 +8,6 @@
   // let books = $state(data.books)
 </script>
 
-<Book {books} />
+<Main>
+  <Book {books} />
+</Main>

@@ -5,7 +5,7 @@
   // })
 </script>
 
-<footer fixed bottom-0 z-9 w-full h-72px flex-bc px-8 bg-gray-50>
+<footer fixed flex-bc px-8 bg-gray-50 z-9 bottom-0 w-full h-72px sm="left-0 w-72px h-full flex-col flex-ac">
   <a href="/" data-sveltekit-replacestate flex-cc flex-col class:text-blue={$page.url.pathname === "/"}>
     <span i-carbon-home text-4xl> </span>
     <span text-xs uppercase> 首页 </span>

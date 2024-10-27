@@ -3,7 +3,7 @@
 	let { children } = $props()
 </script>
 
-<article w-full flex-cc pb-72px>
+<article w-full min-h-screen flex-cc flex-col pb-72px sm="pb-0 pl-72px">
 	{@render children()}
 </article>
 

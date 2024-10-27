@@ -38,6 +38,7 @@ export default defineConfig({
     }],
   ],
   shortcuts: [
+    ['flex-ac', 'flex justify-around items-center'],
     ['flex-bc', 'flex justify-between items-center'],
     ['flex-ec', 'flex justify-end items-center'],
     ['flex-cc', 'flex justify-center items-center'],
