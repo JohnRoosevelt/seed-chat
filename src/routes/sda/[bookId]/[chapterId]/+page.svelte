@@ -23,13 +23,7 @@
   });
 
   async function onFontSizeChange(isBigger) {
-    isBigger
-      ? fontSize < 7
-        ? fontSize++
-        : fontSize
-      : fontSize > 4
-        ? fontSize--
-        : fontSize;
+    isBigger ? (fontSize < 7 ? fontSize++ : fontSize) : fontSize > 4 ? fontSize-- : fontSize;
     await settingDB.setItem("fontSize", fontSize);
   }
 
@@ -59,43 +53,33 @@
 
 <article w-full px-5 py-12 space-y-2 class="text-{fontSize}">
   {#each data.chapter?.content as verse}
-    <p relative bg-white class={verse.t == 2 ? 'flex-cc h-10 sticky top-12 z-3 text-5 font-500' : verse.t == 4 ? 'h-8 sticky top-21 z-3 text-5 font-500' : ''}>
+    <p
+      relative
+      bg-white
+      class={verse.t == 2
+        ? "flex-cc h-10 sticky top-12 z-3 text-5 font-500"
+        : verse.t == 4
+          ? "h-8 sticky top-21 z-3 text-5 font-500"
+          : ""}
+    >
       {#if verse.t == 7}
-        <span absolute text-green>
+        <span absolute text-green select-none>
           {verse.p}˼
         </span>
       {/if}
-      {verse.c.zh}
+      <span select-all>
+        {verse.c.zh}
+      </span>
     </p>
   {/each}
 </article>
 
-<footer
-  fixed
-  bottom-0
-  w-full
-  h-12
-  px-5
-  backdrop-blur-40
-  bg-white
-  flex-bc
-  text-green
->
-  <a
-    data-sveltekit-replacestate
-    href="/sda/{$page.params.bookId}/{$page.params.chapterId - 1}"
-  >
-    上一章
-  </a>
+<footer fixed bottom-0 w-full h-12 px-5 backdrop-blur-40 bg-white flex-bc text-green>
+  <a data-sveltekit-replacestate href="/sda/{$page.params.bookId}/{$page.params.chapterId - 1}"> 上一章 </a>
 
   <Books books={data.books} />
 
   <Chpater book={data.book} curIndex={$page.params.chapterId} />
 
-  <a
-    data-sveltekit-replacestate
-    href="/sda/{$page.params.bookId}/{Number($page.params.chapterId) + 1}"
-  >
-    下一章
-  </a>
+  <a data-sveltekit-replacestate href="/sda/{$page.params.bookId}/{Number($page.params.chapterId) + 1}"> 下一章 </a>
 </footer>
