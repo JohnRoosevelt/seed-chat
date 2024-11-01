@@ -97,7 +97,7 @@
   {#each data.chapter?.content as verse}
     <p
       relative
-      select-all
+      select-text
       bg-white
       ontouchstart={handleTouchStart}
       ontouchend={handleTouchEnd}
