@@ -55,6 +55,7 @@
   {#each data.chapter?.content as verse}
     <p
       relative
+      select-all
       bg-white
       class={verse.t == 2
         ? "flex-cc h-10 sticky top-12 z-3 text-5 font-500"
@@ -67,9 +68,7 @@
           {verse.p}˼
         </span>
       {/if}
-      <span select-all>
-        {verse.c.zh}
-      </span>
+      {verse.c.zh}
     </p>
   {/each}
 </article>
