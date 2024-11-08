@@ -1,27 +1,15 @@
 <script>
   import Main from "$com/main.svelte";
-  import Article from "$com/home/article.svelte";
-  import { getDB } from "$lib/datas/bible";
 
   const { data } = $props();
-
-  let fontSize = $state(7);
-  let settingDB;
-  $effect(async () => {
-    if (!settingDB) {
-      settingDB = getDB("setting");
-    }
-
-    const dbFontSize = await settingDB.getItem("fontSize");
-    if (!dbFontSize) {
-      await settingDB.setItem("fontSize", fontSize);
-      return;
-    }
-    fontSize = dbFontSize;
-  });
-  const size = $derived(`${fontSize * 4}px`)
 </script>
 
 <Main>
-  <Article html={data.html} --font-size={size} />
+  <ul w-full px-5 space-y-4>
+    {#each data.c as item}
+      <li>
+        <a href="/home/{item.id}/" data-sveltekit-replacestate> {item.name} </a>
+      </li>
+    {/each}
+  </ul>
 </Main>

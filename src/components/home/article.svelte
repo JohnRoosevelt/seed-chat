@@ -12,7 +12,7 @@
       font-size: 20px;
       font-weight: 500;
       position: sticky;
-      top: 0;
+      top: 48px;
       background: white;
       width: 100%;
       text-align: center;

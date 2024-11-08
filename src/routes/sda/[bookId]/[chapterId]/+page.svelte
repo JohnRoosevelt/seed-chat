@@ -103,12 +103,12 @@
     };
   });
 
-  function onSelectChange(verse) {
-    if (selectedP[verse.p]) {
-      delete selectedP[verse.p]
+  function onSelectChange(i) {
+    if (selectedP[i]) {
+      delete selectedP[i]
       return
     }
-    selectedP[verse.p] = 1
+    selectedP[i] = 1
   }
 </script>
 
@@ -138,10 +138,10 @@
 </Header>
 
 <article w-full px-5 py-12 space-y-2 class="text-{fontSize}">
-  {#each data.chapter?.content as verse}
-    <p onclick={() => onSelectChange(verse)}
+  {#each data.chapter?.content as verse, i}
+    <p onclick={() => onSelectChange(i)}
       data-p={verse.p}
-      class:line={selectedP[verse.p]}
+      class:line={selectedP[i]}
       class="tp{verse.t}"
     >
       {#if verse.t == 7}
