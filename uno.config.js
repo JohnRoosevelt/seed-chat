@@ -48,6 +48,10 @@ export default defineConfig({
     ['scroll-y', 'overflow-y-auto custom-noscrollbar'],
     ['btn', 'px-4 py-1 rounded inline-block bg-teal-600 text-white cursor-pointer hover:bg-teal-700 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],
     ['icon-btn', 'inline-block cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100 hover:text-teal-600'],
+    ['tp2', 'flex-cc h-10 sticky top-12 z-3 text-5 font-500'],
+    ['tp4', 'h-8 sticky top-21 z-3 text-5 font-500'],
+    ['tp7', 'relative indent-8'],
+    ['line', 'underline underline-offset-4 decoration-sky-500'],
   ],
   presets: [
     presetUno(),
@@ -88,7 +92,6 @@ export default defineConfig({
     {
       getCSS: ({ theme }) => {
         // const t = theme;
-
         return `
           html {
             scroll-behavior: smooth;
@@ -99,7 +102,8 @@ export default defineConfig({
     }
   ],
   safelist: [
-    'bg-blue', 'bg-green', 
+    ...['bg-blue', 'bg-green'],
+    ...Array.from('tp2 tp4 tp7 line'.split(' ')),
     ...Array.from('text-blue text-green text-4 text-5 text-6 text-7'.split(' ')),
   ],
   content: {

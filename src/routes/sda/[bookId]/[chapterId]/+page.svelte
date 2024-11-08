@@ -7,6 +7,7 @@
 
   const { data } = $props();
 
+  let selectedP = $state({})
   let fontSize = $state(7);
   let settingDB;
   $effect(async () => {
@@ -28,29 +29,12 @@
   }
 
   // console.log(data.chapter)
-  let longPressTimer;
   let contextMenuVisible = $state(false);
   let selectedText;
   let menuPosition = $state({ x: 0, y: 0 });
 
-  const handleTouchStart = (event) => {
-    event.preventDefault();
-    longPressTimer = setTimeout(() => {
-      const selection = window.getSelection();
-      if (selection.toString()) {
-        selectedText = selection.toString();
-        const rect = selection.getRangeAt(0).getBoundingClientRect();
-        menuPosition = { x: rect.x + window.scrollX, y: rect.y + window.scrollY + rect.height };
-        contextMenuVisible = true;
-      }
-    }, 500);
-  };
-
-  const handleTouchEnd = () => {
-    clearTimeout(longPressTimer);
-  };
-
   const copyToClipboard = async () => {
+    console.log("copy to clipboard", selectedText);
     try {
       await navigator.clipboard.writeText(selectedText);
       alert("已复制到剪贴板: " + selectedText);
@@ -60,17 +44,77 @@
     contextMenuVisible = false;
   };
 
-  const hideContextMenu = () => {
+  function extractNumbers(text) {
+    const regex = /(?<=\n\n).*?(?=˼)/g;
+    // const regex = /(^\n.*?˼)/gm;
+    const extractedNumbers = text.match(regex) || [];
+    const splitText = text.split(regex);
+    console.log("提取出的数字:", extractedNumbers, { splitText });
+    for (let index = 0; index < splitText.length; index++) {
+      const text = splitText[index].replace("\n\n", "").replace("˼　　", "");
+      let p = index == 0 ? extractedNumbers[index] - 1 : extractedNumbers[index - 1] - 1 + 1;
+      console.log({ text, p });
+      if (!p) {
+        console.log("xxx");
+        const pi = data.chapter?.content.find((verse) => {
+          console.log(verse);
+          return verse.c.zh.includes(text);
+        });
+        console.log(pi);
+      }
+    }
+  }
+
+  function handleSelectionChange() {
+    const selection = window.getSelection();
+    const selectedData = [];
+    if (selection.toString()) {
+      selectedText = selection.toString();
+      // extractNumbers(selectedText);
+
+      const range = selection.getRangeAt(0);
+      const commonAncestor = range.commonAncestorContainer;
+
+      let parentElement = commonAncestor;
+      if (commonAncestor.nodeType === Node.TEXT_NODE) {
+        parentElement = commonAncestor.parentNode;
+        const dataPValue = parentElement.getAttribute("data-p");
+        if (dataPValue) {
+          selectedData.push({ dataP: dataPValue, text: selectedText });
+        }
+      } 
+
+      console.log("选中的数据:", selectedData);
+
+      const rect = selection.getRangeAt(0).getBoundingClientRect();
+      menuPosition = { x: rect.x + window.scrollX, y: rect.y + window.scrollY + rect.height };
+      contextMenuVisible = true;
+      return;
+    }
+
     contextMenuVisible = false;
-  };
+  }
 
   $effect(() => {
-    document.addEventListener("touchend", hideContextMenu);
+    document.addEventListener("selectionchange", handleSelectionChange);
+
     return () => {
-      document.removeEventListener("touchend", hideContextMenu);
+      document.removeEventListener("selectionchange", handleSelectionChange);
     };
   });
+
+  function onSelectChange(verse) {
+    if (selectedP[verse.p]) {
+      delete selectedP[verse.p]
+      return
+    }
+    selectedP[verse.p] = 1
+  }
 </script>
+
+<svelte:head>
+  <title>{data.book.name} {data.chapter?.content[0]?.c.zh}</title>
+</svelte:head>
 
 <Header back={() => history.back()} color="green">
   <a href="/sda" flex-cc>
@@ -95,20 +139,13 @@
 
 <article w-full px-5 py-12 space-y-2 class="text-{fontSize}">
   {#each data.chapter?.content as verse}
-    <p
-      relative
-      select-text
-      bg-white
-      ontouchstart={handleTouchStart}
-      ontouchend={handleTouchEnd}
-      class={verse.t == 2
-        ? "flex-cc h-10 sticky top-12 z-3 text-5 font-500"
-        : verse.t == 4
-          ? "h-8 sticky top-21 z-3 text-5 font-500"
-          : ""}
+    <p onclick={() => onSelectChange(verse)}
+      data-p={verse.p}
+      class:line={selectedP[verse.p]}
+      class="tp{verse.t}"
     >
       {#if verse.t == 7}
-        <span absolute text-green select-none>
+        <span absolute z-0 text-green class="-left-8">
           {verse.p}˼
         </span>
       {/if}
@@ -119,7 +156,7 @@
 
 {#if contextMenuVisible}
   <div class="context-menu" style="left: {menuPosition.x}px; top: {menuPosition.y}px;">
-    <button onclick={copyToClipboard}>复制</button>
+    <button onclick={copyToClipboard}>高亮</button>
   </div>
 {/if}
 
