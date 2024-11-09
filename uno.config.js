@@ -50,7 +50,7 @@ export default defineConfig({
     ['icon-btn', 'inline-block cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100 hover:text-teal-600'],
     ['tp2', 'flex-cc h-10 sticky bg-white top-12 z-3 text-5 font-500'],
     ['tp4', 'h-8 sticky bg-white top-21 z-3 text-5 font-500'],
-    ['tp7', 'relative indent-8'],
+    ['tp7', 'relative'],
     ['line', 'underline underline-offset-4 decoration-sky-500'],
   ],
   presets: [

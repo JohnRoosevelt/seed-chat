@@ -139,13 +139,15 @@
 
 <article w-full px-5 py-12 space-y-2 class="text-{fontSize}">
   {#each data.chapter?.content as verse, i}
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
     <p onclick={() => onSelectChange(i)}
       data-p={verse.p}
       class:line={selectedP[i]}
       class="tp{verse.t}"
     >
       {#if verse.t == 7}
-        <span absolute z-0 text-green class="-left-8">
+        <span absolute z-0 text-green>
           {verse.p}˼
         </span>
       {/if}
@@ -171,6 +173,41 @@
 </footer>
 
 <style>
+  .text-4 {
+    .tp7 {
+      text-indent: 2rem;
+      span {
+        text-indent: -2rem;
+      }
+    }
+  }
+  .text-5 {
+    .tp7 {
+      text-indent: 2.5rem;
+      span {
+        text-indent: -2.5rem;
+      }
+    }
+  }
+
+  .text-6 {
+    .tp7 {
+      text-indent: 3rem;
+      span {
+        text-indent: -3rem;
+      }
+    }
+  }
+
+  .text-7 {
+    .tp7 {
+      text-indent: 3.5rem;
+      span {
+        text-indent: -3.5rem;
+      }
+    }
+  }
+
   .context-menu {
     position: absolute;
     background-color: white;
