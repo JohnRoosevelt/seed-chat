@@ -1,5 +1,5 @@
 <script>
-  import Main from "$com/main.svelte";
+  import Home from "$com/home.svelte";
   import Book from "$com/sda/book.index.svelte";
 
   const { data } = $props();
@@ -8,6 +8,10 @@
   // let books = $state(data.books)
 </script>
 
-<Main>
+<svelte:head>
+  <title> 怀著 </title>
+</svelte:head>
+
+<Home>
   <Book {books} />
-</Main>
+</Home>

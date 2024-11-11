@@ -26,7 +26,7 @@
     <span text-xs uppercase> 音乐 </span>
   </a>
 
-  <a href="/user" data-sveltekit-replacestate flex-cc flex-col class:text-blue={$page.url.pathname === "/user"}>
+  <a href="/my" data-sveltekit-replacestate flex-cc flex-col class:text-blue={$page.url.pathname === "/my"}>
     <span alt="icon" i-carbon-user-settings text-4xl></span>
     <span text-xs uppercase> 我的 </span>
   </a>

@@ -1,12 +1,12 @@
 <script>
-  import Main from "$com/main.svelte";
+  import Home from "$com/home.svelte";
   import Avatar from "$lib/avatar.svelte";
 
 	const { data } = $props();
 	let { user } = data;
 </script>
 
-<Main>
+<Home>
 	<article w-full flex-1 space-y-4>
 		<a href="#/" w-full bg-white flex flex-col px-6 pt-16 pb-6>
 			<div flex class="justify-between items-center" space-x-4>
@@ -68,4 +68,4 @@
 			<button text-primary>退出</button>
 		</form>
 	</article>
-</Main>
+</Home>

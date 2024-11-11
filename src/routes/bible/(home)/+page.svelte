@@ -1,5 +1,5 @@
 <script>
-  import Main from "$com/main.svelte";
+  import Home from "$com/home.svelte";
   import Book from "$com/bible/book.index.svelte";
 
   const { data } = $props();
@@ -9,6 +9,10 @@
   // console.log({bible})
 </script>
 
-<Main>
+<svelte:head>
+  <title> 圣经 </title>
+</svelte:head>
+
+<Home>
   <Book {bible} />
-</Main>
+</Home>

@@ -1,5 +1,5 @@
 <script>
-  import Header from "$com/header.svelte";
+  import Back from "$com/back.svelte";
   import Article from "$com/home/article.svelte";
   import { getDB } from "$lib/datas/bible";
 
@@ -23,10 +23,10 @@
 </script>
 
 <svelte:head>
-  <title> {data.article.name} </title>
+  <title> {data.article?.name} </title>
 </svelte:head>
 
-<Header back={() => history.back()} color="green">
+<!-- <Header back={() => history.back()} color="green">
   <a href="/home/{data.cItem.id}" flex-cc>
     <span i-carbon-chevron-left text-2xl></span>
     <span> 返回 </span>
@@ -45,8 +45,26 @@
       <span i-ic-outline-text-increase></span>
     </button>
   </div>
-</Header>
+</Header> -->
 
-<section w-full px-5 py-12 space-y-2>
-  <Article html={data.html} --font-size={size} />
-</section>
+<Back>
+  {#snippet backText()}
+    <span>{data.cItem.name}</span>
+  {/snippet}
+  {#snippet title()}
+    <span>{data.article?.name}</span>
+    <div space-x-2px>
+      <button aria-label="-" onclick={() => onFontSizeChange(false)}>
+        <span i-ic-outline-text-decrease></span>
+      </button>
+      <span>{fontSize}</span>
+      <button aria-label="+" onclick={() => onFontSizeChange(true)}>
+        <span i-ic-outline-text-increase></span>
+      </button>
+    </div>
+  {/snippet}
+
+  <section w-full px-5 space-y-2>
+    <Article html={data.html} --font-size={size} />
+  </section>
+</Back>

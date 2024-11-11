@@ -8,7 +8,7 @@
 
 <style>
   article :global {
-    p:first-child {
+    /* p:first-child {
       font-size: 20px;
       font-weight: 500;
       position: sticky;
@@ -16,7 +16,7 @@
       background: white;
       width: 100%;
       text-align: center;
-    }
+    } */
     p:not(:first-child)::first-letter {
       margin-left: 2em;
       font-size: var(--font-size, 28px);

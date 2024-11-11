@@ -1,7 +1,11 @@
 <script>
-  import Main from "$com/main.svelte";
+  import Home from "$com/home.svelte";
 </script>
 
-<Main>
+<svelte:head>
+  <title> 音乐 </title>
+</svelte:head>
+
+<Home>
   暂无上架内容
-</Main>
+</Home>

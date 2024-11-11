@@ -34,7 +34,7 @@ export async function load({ parent, params: { bookId, chapterId } }) {
 
 
   const chapter = book.chapters[Number(chapterId -1)]
-  // console.log( { bookId, chapterId, book, chapter })
+  console.log( { bookId, chapterId, book, chapter })
 
   return { book, chapter }
 }

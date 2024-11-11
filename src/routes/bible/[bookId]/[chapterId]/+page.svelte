@@ -1,5 +1,5 @@
 <script>
-  import Header from "$com/header.svelte";
+  import Back from "$com/back.svelte";
   import { page } from "$app/stores";
   import { getDB } from "$lib/datas/bible";
   import Chpater from "./chpater.svelte";
@@ -34,42 +34,40 @@
   }
 </script>
 
-<Header
-  back={() => history.back()}
-  color={data.book.title == "旧约" ? "blue" : "green"}
->
-  <a href="/bible" flex-cc>
-    <span i-carbon-chevron-left text-2xl></span>
-    <span> 返回 </span>
-  </a>
+<Back color={data.book.title == "旧约" ? "blue" : "green"}>
+  {#snippet backText()}
+    <div underline underline-offset-8>
+      {data.book.title}
+      {data.book.name?.zh}
+    </div>
+  {/snippet}
 
-  <div underline underline-offset-8>
-    {data.book.title}
-    {data.book.name?.zh}
-    第 {data.chapter?.id} 章
-  </div>
+  {#snippet title()}
+    <div>
+      第 {data.chapter?.id} 章
+    </div>
+    <div space-x-2px>
+      <button aria-label="-" onclick={() => onFontSizeChange(false)}>
+        <span i-ic-outline-text-decrease></span>
+      </button>
+      <span>{fontSize}</span>
+      <button aria-label="+" onclick={() => onFontSizeChange(true)}>
+        <span i-ic-outline-text-increase></span>
+      </button>
+    </div>
+  {/snippet}
 
-  <div space-x-2px>
-    <button aria-label="-" onclick={() => onFontSizeChange(false)}>
-      <span i-ic-outline-text-decrease></span>
-    </button>
-    <span>{fontSize}</span>
-    <button aria-label="+" onclick={() => onFontSizeChange(true)}>
-      <span i-ic-outline-text-increase></span>
-    </button>
-  </div>
-</Header>
-
-<article w-full px-5 py-12 class="text-{fontSize}">
-  <p>
-    {#each data.chapter?.verses as verse}
-      <sup ml-1 class="text-{data.book.title == '旧约' ? 'blue' : 'green'}"
-        >{verse.id}
-      </sup>
-      {verse.text.zh}
-    {/each}
-  </p>
-</article>
+  <article w-full px-5 pb-12 class="text-{fontSize}">
+    <p>
+      {#each data.chapter?.verses as verse}
+        <sup ml-1 class="text-{data.book.title == '旧约' ? 'blue' : 'green'}"
+          >{verse.id}
+        </sup>
+        {verse.text.zh}
+      {/each}
+    </p>
+  </article>
+</Back>
 
 <footer
   fixed

@@ -1,5 +1,5 @@
 <script>
-  import Header from "$com/header.svelte";
+  import Back from "$com/back.svelte";
   import { page } from "$app/stores";
   import { getDB } from "$lib/datas/bible";
   import Books from "./books.svelte";
@@ -116,45 +116,47 @@
   <title>{data.book.name} {data.chapter?.content[0]?.c.zh}</title>
 </svelte:head>
 
-<Header back={() => history.back()} color="green">
-  <a href="/sda" flex-cc>
-    <span i-carbon-chevron-left text-2xl></span>
-    <span> 返回 </span>
-  </a>
+<Back>
+  {#snippet backText()}
+    <div underline underline-offset-8>
+      {data.book?.name}
+    </div>
+  {/snippet}
 
-  <div underline underline-offset-8>
-    {data.book.name}
-  </div>
+  {#snippet title()}
+    <div>
+      {data.chapter.name}
+    </div>
+    <div space-x-2px>
+      <button aria-label="-" onclick={() => onFontSizeChange(false)}>
+        <span i-ic-outline-text-decrease></span>
+      </button>
+      <span>{fontSize}</span>
+      <button aria-label="+" onclick={() => onFontSizeChange(true)}>
+        <span i-ic-outline-text-increase></span>
+      </button>
+    </div>
+  {/snippet}
 
-  <div space-x-2px>
-    <button aria-label="-" onclick={() => onFontSizeChange(false)}>
-      <span i-ic-outline-text-decrease></span>
-    </button>
-    <span>{fontSize}</span>
-    <button aria-label="+" onclick={() => onFontSizeChange(true)}>
-      <span i-ic-outline-text-increase></span>
-    </button>
-  </div>
-</Header>
-
-<article w-full px-5 py-12 space-y-2 class="text-{fontSize}">
-  {#each data.chapter?.content as verse, i}
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-    <p onclick={() => onSelectChange(i)}
-      data-p={verse.p}
-      class:line={selectedP[i]}
-      class="tp{verse.t}"
-    >
-      {#if verse.t == 7}
-        <span absolute z-0 text-green>
-          {verse.p}˼
-        </span>
-      {/if}
-      {verse.c.zh}
-    </p>
-  {/each}
-</article>
+  <article w-full px-5 pb-12 space-y-2 class="text-{fontSize}">
+    {#each data.chapter?.content as verse, i}
+      <!-- svelte-ignore a11y_click_events_have_key_events -->
+      <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+      <p onclick={() => onSelectChange(i)}
+        data-p={verse.p}
+        class:line={selectedP[i]}
+        class="tp{verse.t}"
+      >
+        {#if verse.t == 7}
+          <span absolute z-0 text-green>
+            {verse.p}˼
+          </span>
+        {/if}
+        {verse.c.zh}
+      </p>
+    {/each}
+  </article>
+</Back>
 
 {#if contextMenuVisible}
   <div class="context-menu" style="left: {menuPosition.x}px; top: {menuPosition.y}px;">
