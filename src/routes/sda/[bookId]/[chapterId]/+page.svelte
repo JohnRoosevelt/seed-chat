@@ -23,11 +23,6 @@
     fontSize = dbFontSize;
   });
 
-  async function onFontSizeChange(isBigger) {
-    isBigger ? (fontSize < 7 ? fontSize++ : fontSize) : fontSize > 4 ? fontSize-- : fontSize;
-    await settingDB.setItem("fontSize", fontSize);
-  }
-
   // console.log(data.chapter)
   let contextMenuVisible = $state(false);
   let selectedText;
@@ -118,23 +113,14 @@
 
 <Back>
   {#snippet backText()}
-    <div underline underline-offset-8>
+    <div underline underline-offset-8 truncate>
       {data.book?.name}
     </div>
   {/snippet}
 
   {#snippet title()}
-    <div>
+    <div truncate>
       {data.chapter.name}
-    </div>
-    <div space-x-2px>
-      <button aria-label="-" onclick={() => onFontSizeChange(false)}>
-        <span i-ic-outline-text-decrease></span>
-      </button>
-      <span>{fontSize}</span>
-      <button aria-label="+" onclick={() => onFontSizeChange(true)}>
-        <span i-ic-outline-text-increase></span>
-      </button>
     </div>
   {/snippet}
 

@@ -16,7 +16,7 @@
     </section>
 
     <section bg-white rounded-2 py-8 grid grid-cols-3 gap-8 md="grid-cols-4" lg="grid-cols-5">
-      <a href="/about" flex-cc flex-col space-y-2>
+      <a href="/my/about" flex-cc flex-col space-y-2>
         <span i-carbon-bee-bat text-green600 text-2xl></span>
         <div>免责声明</div>
       </a>
@@ -31,7 +31,7 @@
         <div>反馈建议</div>
       </a>
   
-      <a href="/about" flex-cc flex-col space-y-2>
+      <a href="my/setting" flex-cc flex-col space-y-2>
         <span i-carbon-edit-filter text-red600 text-2xl></span>
         <div>阅读偏好</div>
       </a>
