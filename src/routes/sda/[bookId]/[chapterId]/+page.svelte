@@ -158,7 +158,7 @@
   </div>
 {/if}
 
-<footer fixed bottom-0 w-full h-12 px-5 backdrop-blur-40 bg-white flex-bc text-green>
+<footer fixed z-9 bottom-0 w-full h-12 px-5 backdrop-blur-40 bg-white flex-bc text-green>
   <a data-sveltekit-replacestate href="/sda/{$page.params.bookId}/{$page.params.chapterId - 1}"> 上一章 </a>
 
   <Books books={data.books} />
