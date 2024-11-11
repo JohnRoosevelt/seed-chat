@@ -9,6 +9,7 @@
 
   let selectedP = $state({})
   let fontSize = $state(7);
+  let decorationColor = $state('red');
   let settingDB;
   $effect(async () => {
     if (!settingDB) {
@@ -18,9 +19,16 @@
     const dbFontSize = await settingDB.getItem("fontSize");
     if (!dbFontSize) {
       await settingDB.setItem("fontSize", fontSize);
-      return;
+    } else {
+      fontSize = dbFontSize;
     }
-    fontSize = dbFontSize;
+
+    const dbDecorationColor = await settingDB.getItem("decorationColor");
+    if (!dbDecorationColor) {
+      await settingDB.setItem("decorationColor", decorationColor);
+    } else {
+      decorationColor = dbDecorationColor
+    }
   });
 
   // console.log(data.chapter)
@@ -131,7 +139,7 @@
       <p onclick={() => onSelectChange(i)}
         data-p={verse.p}
         class:line={selectedP[i]}
-        class="tp{verse.t}"
+        class="tp{verse.t} decoration-{decorationColor}"
       >
         {#if verse.t == 7}
           <span absolute z-0 text-green>

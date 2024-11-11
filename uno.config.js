@@ -52,7 +52,7 @@ export default defineConfig({
     ['tp2', 'flex-cc h-10 text-5 font-500'],
     ['tp4', 'h-8 sticky bg-white top-12 z-3 text-5 font-500'],
     ['tp7', 'relative'],
-    ['line', 'underline underline-offset-4 decoration-sky-500'],
+    ['line', 'underline underline-offset-4'],
   ],
   presets: [
     presetUno(),
@@ -104,6 +104,7 @@ export default defineConfig({
   ],
   safelist: [
     ...['bg-blue', 'bg-green'],
+    ...['decoration-red', 'decoration-blue', 'decoration-green', 'decoration-sky', 'decoration-teal'],
     ...Array.from('tp2 tp4 tp7 line'.split(' ')),
     ...Array.from('text-blue text-green text-4 text-5 text-6 text-7'.split(' ')),
   ],
