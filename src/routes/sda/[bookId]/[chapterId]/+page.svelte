@@ -59,10 +59,14 @@
 
     const filteredParts = parts.filter(part => part !== '');
 
-    let result = '';
+    let result = [];
     for (let i = 0; i < filteredParts.length; i++) {
       const delimiterObj = delimiters.find(d => d.text === filteredParts[i]);
-      result +=  Boolean(delimiterObj) ? `<span class="${delimiterObj.line ? 'line decoration-orange decoration-' + delimiterObj.line : ''}" style="background: ${delimiterObj.color}">${filteredParts[i]}</span>` : filteredParts[i];
+      result.push({
+        content: filteredParts[i],
+        isDelimiter: Boolean(delimiterObj), 
+        ...delimiterObj
+      })
     }
 
     return result;
@@ -140,7 +144,7 @@
   }
 
   function handleClickOutside () {
-    contextMenuVisible = false
+    // contextMenuVisible = false
   }
 
   $effect(() => {
@@ -184,13 +188,23 @@
           </span>
         {/if}
         <p
-        ondblclick={onSelectChange}
+        ondbclick={onSelectChange}
         data-p={verse.p}
         data-i={i}
         class="tp{verse.t} decoration-{decorationColor}"
         >
           {#if colorContent[i]}
-            {@html splitTextWithAttributes(i)}
+            <!-- {@html splitTextWithAttributes(i)} -->
+            {@const rz = splitTextWithAttributes(i)}
+            {#each rz as ri}
+              {#if ri.isDelimiter}
+                <span onclick={onSelectChange} style:background={ri.color} class={`${ri.line ? 'line decoration-orange decoration-' + ri.line : ''}`}>
+                  {ri.content}
+                </span>
+              {:else}
+                {ri.content}
+              {/if}
+            {/each}
           {:else}
             {verse.c.zh}
           {/if}
