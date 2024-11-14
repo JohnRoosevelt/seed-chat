@@ -8,7 +8,7 @@
 
   const { data } = $props();
 
-  let selectedInfo = {pIndex: '', selectedText: '', index: ''}
+  let selectedInfo = {pIndex: '', selectedText: '', index: '', jIndex: ''}
   let colorContent = $state({})
   let fontSize = $state(7);
   let decorationColor = $state('red');
@@ -34,6 +34,14 @@
     } else {
       decorationColor = dbDecorationColor
     }
+  });
+
+  $effect(() => {
+    document.addEventListener("selectionchange", handleSelectionChange);
+ 
+    return () => {
+      document.removeEventListener("selectionchange", handleSelectionChange);
+    };
   });
 
   async function copyToClipboard () {
@@ -73,17 +81,22 @@
   }
 
   async function lightContent(event) {
+    const obj = {text: selectedInfo.selectedText}
     const spanElement = event.currentTarget.querySelector('span');
     if (spanElement) {
-      const color = getComputedStyle(spanElement).backgroundColor;
-      console.log('Clicked span background color:', color, selectedInfo);
-      colorContent[selectedInfo.index] = colorContent[selectedInfo.index] || []
-      colorContent[selectedInfo.index].push({text: selectedInfo.selectedText, color})
+      obj.color = event.currentTarget.getAttribute("data-color");
     } else {
-      const line = event.currentTarget.getAttribute("data-line");
-      console.log('Clicked span line style:', line, selectedInfo);
-      colorContent[selectedInfo.index] = colorContent[selectedInfo.index] || []
-      colorContent[selectedInfo.index].push({text: selectedInfo.selectedText, line})
+      obj.line = event.currentTarget.getAttribute("data-line");
+    }
+    colorContent[selectedInfo.index] = colorContent[selectedInfo.index] || []
+    const index = colorContent[selectedInfo.index].findIndex(i => i.text == obj.text)
+    if (index == -1) {
+      colorContent[selectedInfo.index].push(obj)
+    } else {
+      colorContent[selectedInfo.index].splice(index, 1)
+      if(Object.keys(colorContent[selectedInfo.index]).length === 0) {
+        delete colorContent[selectedInfo.index]
+      }
     }
     contextMenuVisible = false;
   }
@@ -130,10 +143,9 @@
     
     const pIndex = target.getAttribute("data-p");
     const index = target.getAttribute("data-i");
-    console.log({pIndex, index})
     if (pIndex) {
-      selectedInfo = { pIndex, index }
-      selectedInfo = { pIndex, selectedText: data.chapter.content[index].c.zh, index }
+      selectedInfo = { pIndex, selectedText: selection.toString(), index }
+      console.log({selectedInfo})
     }
 
     const rect = target.getBoundingClientRect();
@@ -142,14 +154,6 @@
     menuPosition = { x: 20, y: y + height + window.scrollY + 5 };
     contextMenuVisible = true;
   }
-
-  $effect(() => {
-    document.addEventListener("selectionchange", handleSelectionChange);
- 
-    return () => {
-      document.removeEventListener("selectionchange", handleSelectionChange);
-    };
-  });
 </script>
 
 <svelte:head>
@@ -193,7 +197,7 @@
             {@const rz = splitTextWithAttributes(i)}
             {#each rz as ri}
               {#if ri.isDelimiter}
-                <span onclick={onSelectChange} style:background={ri.color} class={`${ri.line ? 'line decoration-orange decoration-' + ri.line : ''}`}>
+                <span data-p={verse.p} data-i={i} onclick={onSelectChange} class={`${ri.line ? 'line decoration-orange decoration-' + ri.line : ''} ${ri.color ? 'bg-' + ri.color : ''}`}>
                   {ri.content}
                 </span>
               {:else}
@@ -212,25 +216,25 @@
 {#if contextMenuVisible}
   <div use:clickOutside absolute z-999999 bg-white border-px border-gray flex-cc rounded-1 style="left: {menuPosition.x}px; top: {menuPosition.y}px;">
     <button p-2 hover="bg-[#f0f0f0]" onclick={copyToClipboard}>复制</button>
-    <button aria-label="color" p-2 hover="bg-[#f0f0f0]" data-line="solid" line decoration-solid decoration-orange onclick={lightContent}>
+    <button class:opacity-40={false} aria-label="color" p-2 hover="bg-[#f0f0f0]" data-line="solid" line decoration-solid decoration-orange onclick={lightContent}>
       A
     </button>
-    <button aria-label="color" p-2 hover="bg-[#f0f0f0]" data-line="wavy" line decoration-wavy decoration-orange onclick={lightContent}>
+    <button class:opacity-40={false} aria-label="color" p-2 hover="bg-[#f0f0f0]" data-line="wavy" line decoration-wavy decoration-orange onclick={lightContent}>
       A
     </button>
-    <button aria-label="color" p-2 hover="bg-[#f0f0f0]" onclick={lightContent}>
+    <button class:opacity-40={false} aria-label="color" p-2 hover="bg-[#f0f0f0]" data-color="red" onclick={lightContent}>
       <span flex-cc bg-red w-5 h-5>A</span>
     </button>
-    <button aria-label="color" p-2 hover="bg-[#f0f0f0]" onclick={lightContent}>
+    <button class:opacity-40={false} aria-label="color" p-2 hover="bg-[#f0f0f0]" data-color="blue" onclick={lightContent}>
       <span flex-cc bg-blue w-5 h-5>A</span>
     </button>
-    <button aria-label="color" p-2 hover="bg-[#f0f0f0]" onclick={lightContent}>
+    <button class:opacity-40={false} aria-label="color" p-2 hover="bg-[#f0f0f0]" data-color="green" onclick={lightContent}>
       <span flex-cc bg-green w-5 h-5>A</span>
     </button>
-    <button aria-label="color" p-2 hover="bg-[#f0f0f0]" onclick={lightContent}>
+    <button class:opacity-40={false} aria-label="color" p-2 hover="bg-[#f0f0f0]" data-color="sky" onclick={lightContent}>
       <span flex-cc bg-sky w-5 h-5>A</span>
     </button>
-    <button aria-label="color" p-2 hover="bg-[#f0f0f0]" onclick={lightContent}>
+    <button class:opacity-40={false} aria-label="color" p-2 hover="bg-[#f0f0f0]" data-color="teal" onclick={lightContent}>
       <span flex-cc bg-teal w-5 h-5>A</span>
     </button>
   </div>
