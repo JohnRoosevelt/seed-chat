@@ -143,10 +143,6 @@
     contextMenuVisible = true;
   }
 
-  function handleClickOutside () {
-    // contextMenuVisible = false
-  }
-
   $effect(() => {
     document.addEventListener("selectionchange", handleSelectionChange);
  
@@ -194,7 +190,6 @@
         class="tp{verse.t} decoration-{decorationColor}"
         >
           {#if colorContent[i]}
-            <!-- {@html splitTextWithAttributes(i)} -->
             {@const rz = splitTextWithAttributes(i)}
             {#each rz as ri}
               {#if ri.isDelimiter}
@@ -215,7 +210,7 @@
 </Back>
 
 {#if contextMenuVisible}
-  <div use:clickOutside onclick_outside={handleClickOutside} absolute z-999999 bg-white border-px border-gray flex-cc rounded-1 style="left: {menuPosition.x}px; top: {menuPosition.y}px;">
+  <div use:clickOutside absolute z-999999 bg-white border-px border-gray flex-cc rounded-1 style="left: {menuPosition.x}px; top: {menuPosition.y}px;">
     <button p-2 hover="bg-[#f0f0f0]" onclick={copyToClipboard}>复制</button>
     <button aria-label="color" p-2 hover="bg-[#f0f0f0]" data-line="solid" line decoration-solid decoration-orange onclick={lightContent}>
       A
