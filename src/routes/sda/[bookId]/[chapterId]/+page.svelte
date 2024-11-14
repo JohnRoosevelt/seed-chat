@@ -188,7 +188,7 @@
           </span>
         {/if}
         <p
-        ondbclick={onSelectChange}
+        ondblclick={onSelectChange}
         data-p={verse.p}
         data-i={i}
         class="tp{verse.t} decoration-{decorationColor}"
