@@ -49,19 +49,23 @@
     contextMenuVisible = false;
   };
 
-  function splitText(i) {
+  function splitTextWithAttributes(i) {
     const text = data.chapter.content[i].c.zh
-    const {text: delimiter, color} = colorContent[i]
-    const parts = text.split(delimiter);
+    const delimiters = colorContent[i]
 
-    if (parts.length < 2) {
-      return text
+    const regex = new RegExp(`(${delimiters.map(d => d.text).join('|')})`, 'g');
+
+    const parts = text.split(regex);
+
+    const filteredParts = parts.filter(part => part !== '');
+
+    let result = '';
+    for (let i = 0; i < filteredParts.length; i++) {
+      const delimiterObj = delimiters.find(d => d.text === filteredParts[i]);
+      result +=  Boolean(delimiterObj) ? `<span style="background: ${delimiterObj.color}">${filteredParts[i]}</span>` : filteredParts[i];
     }
 
-    const before = parts.slice(0, parts.length - 1).join(delimiter); // 指定文字前的内容
-    const after = parts[parts.length - 1]; // 指定文字后的内容
-
-    return `${before}<span style="background: ${color}">${selectedInfo.selectedText}</span>${after} `
+    return result;
   }
 
   async function lightContent(event) {
@@ -69,7 +73,8 @@
     if (spanElement) {
       const color = getComputedStyle(spanElement).backgroundColor;
       console.log('Clicked span background color:', color, selectedInfo);
-      colorContent[selectedInfo.index] = {text: selectedInfo.selectedText, color}
+      colorContent[selectedInfo.index] = colorContent[selectedInfo.index] || []
+      colorContent[selectedInfo.index].push({text: selectedInfo.selectedText, color})
     }
     contextMenuVisible = false;
   }
@@ -95,7 +100,15 @@
       } 
 
       const rect = selection.getRangeAt(0).getBoundingClientRect();
-      menuPosition = { x: rect.x + window.scrollX, y: rect.y + window.scrollY + rect.height };
+      // menuPosition = { x: rect.x + window.scrollX, y: rect.y + window.scrollY + rect.height };
+      let menuY = rect.y + window.scrollY + rect.height; // 初始 y 位置
+
+      // 限制菜单不超出视口
+      const menuHeight = 50; // 假设菜单高度为50px
+      if (menuY + menuHeight > window.innerHeight) {
+          menuY = window.innerHeight - menuHeight; // 调整 y 位置
+      }
+      menuPosition = { x: 20, y: menuY };
       contextMenuVisible = true;
       return;
     }
@@ -153,7 +166,7 @@
           </span>
         {/if}
         {#if colorContent[i]}
-          {@html splitText(i)}
+          {@html splitTextWithAttributes(i)}
         {:else}
           {verse.c.zh}
         {/if}
