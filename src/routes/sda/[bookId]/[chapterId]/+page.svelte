@@ -4,10 +4,10 @@
   import { getDB } from "$lib/datas/bible";
   import Books from "./books.svelte";
   import Chpater from "./chpater.svelte";
+  import { clickOutside } from '$com/clickOutside';
 
   const { data } = $props();
 
-  let selectedP = $state({})
   let selectedInfo = {pIndex: '', selectedText: '', index: ''}
   let colorContent = $state({})
   let fontSize = $state(7);
@@ -62,7 +62,7 @@
     let result = '';
     for (let i = 0; i < filteredParts.length; i++) {
       const delimiterObj = delimiters.find(d => d.text === filteredParts[i]);
-      result +=  Boolean(delimiterObj) ? `<span style="background: ${delimiterObj.color}">${filteredParts[i]}</span>` : filteredParts[i];
+      result +=  Boolean(delimiterObj) ? `<span class="${delimiterObj.line ? 'line decoration-' + delimiterObj.line : ''}" style="background: ${delimiterObj.color}">${filteredParts[i]}</span>` : filteredParts[i];
     }
 
     return result;
@@ -75,6 +75,11 @@
       console.log('Clicked span background color:', color, selectedInfo);
       colorContent[selectedInfo.index] = colorContent[selectedInfo.index] || []
       colorContent[selectedInfo.index].push({text: selectedInfo.selectedText, color})
+    } else {
+      const line = event.currentTarget.getAttribute("data-line");
+      console.log('Clicked span line style:', line, selectedInfo);
+      colorContent[selectedInfo.index] = colorContent[selectedInfo.index] || []
+      colorContent[selectedInfo.index].push({text: selectedInfo.selectedText, line})
     }
     contextMenuVisible = false;
   }
@@ -95,19 +100,13 @@
         const index = parentElement.getAttribute("data-i");
         if (pIndex) {
           selectedInfo = { pIndex, selectedText, index }
-          
         }
       } 
 
       const rect = selection.getRangeAt(0).getBoundingClientRect();
       // menuPosition = { x: rect.x + window.scrollX, y: rect.y + window.scrollY + rect.height };
-      let menuY = rect.y + window.scrollY + rect.height; // 初始 y 位置
+      let menuY = rect.y + window.scrollY + rect.height + 5; // 初始 y 位置
 
-      // 限制菜单不超出视口
-      const menuHeight = 50; // 假设菜单高度为50px
-      if (menuY + menuHeight > window.innerHeight) {
-          menuY = window.innerHeight - menuHeight; // 调整 y 位置
-      }
       menuPosition = { x: 20, y: menuY };
       contextMenuVisible = true;
       return;
@@ -116,21 +115,41 @@
     contextMenuVisible = false;
   }
 
+  function onSelectChange(event) {
+    const target = event.currentTarget;
+    const range = document.createRange();
+    range.selectNodeContents(target); // 选择目标元素的内容
+    
+    const selection = window.getSelection();
+    selection.removeAllRanges(); // 清除之前的选择
+    selection.addRange(range); // 添加新的选择范围
+    
+    const pIndex = target.getAttribute("data-p");
+    const index = target.getAttribute("data-i");
+    console.log({pIndex, index})
+    if (pIndex) {
+      selectedInfo = { pIndex, index }
+      selectedInfo = { pIndex, selectedText: data.chapter.content[index].c.zh, index }
+    }
+
+    const rect = target.getBoundingClientRect();
+    const {y, height} = rect;
+    console.log({y, height}, window.scrollY)
+    menuPosition = { x: 20, y: y + height + window.scrollY + 5 };
+    contextMenuVisible = true;
+  }
+
+  function handleClickOutside () {
+    contextMenuVisible = false
+  }
+
   $effect(() => {
     document.addEventListener("selectionchange", handleSelectionChange);
-
+ 
     return () => {
       document.removeEventListener("selectionchange", handleSelectionChange);
     };
   });
-
-  function onSelectChange(i) {
-    if (selectedP[i]) {
-      delete selectedP[i]
-      return
-    }
-    selectedP[i] = 1
-  }
 </script>
 
 <svelte:head>
@@ -154,30 +173,42 @@
     {#each data.chapter?.content as verse, i}
       <!-- svelte-ignore a11y_click_events_have_key_events -->
       <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-      <p onclick={() => onSelectChange(i)}
-        data-p={verse.p}
-        data-i={i}
-        class:line={selectedP[i]}
-        class="tp{verse.t} decoration-{decorationColor}"
-      >
+      <!-- ondblclick={() => onSelectChange(i)} -->
+      <!-- class:select-all={selectedP[i]} -->
+      <!-- class:line={selectedP[i]} -->
+      <!-- svelte-ignore a11y_no_static_element_interactions -->
+      <div>
         {#if verse.t == 7}
           <span absolute z-0 text-green>
             {verse.p}˼
           </span>
         {/if}
-        {#if colorContent[i]}
-          {@html splitTextWithAttributes(i)}
-        {:else}
-          {verse.c.zh}
-        {/if}
-      </p>
+        <p
+        ondblclick={onSelectChange}
+        data-p={verse.p}
+        data-i={i}
+        class="tp{verse.t} decoration-{decorationColor}"
+        >
+          {#if colorContent[i]}
+            {@html splitTextWithAttributes(i)}
+          {:else}
+            {verse.c.zh}
+          {/if}
+        </p>
+      </div>
     {/each}
   </article>
 </Back>
 
 {#if contextMenuVisible}
-  <div absolute z-9 bg-white border-px border-gray flex-cc rounded-1 style="left: {menuPosition.x}px; top: {menuPosition.y}px;">
+  <div use:clickOutside onclick_outside={handleClickOutside} absolute z-999999 bg-white border-px border-gray flex-cc rounded-1 style="left: {menuPosition.x}px; top: {menuPosition.y}px;">
     <button p-2 hover="bg-[#f0f0f0]" onclick={copyToClipboard}>复制</button>
+    <button aria-label="color" p-2 hover="bg-[#f0f0f0]" data-line="solid" line decoration-solid onclick={lightContent}>
+      A
+    </button>
+    <button aria-label="color" p-2 hover="bg-[#f0f0f0]" data-line="wavy" line decoration-wavy onclick={lightContent}>
+      A
+    </button>
     <button aria-label="color" p-2 hover="bg-[#f0f0f0]" onclick={lightContent}>
       <span block bg-red w-5 h-5></span>
     </button>

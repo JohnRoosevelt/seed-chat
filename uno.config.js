@@ -52,7 +52,7 @@ export default defineConfig({
     ['tp2', 'flex-cc h-10 text-5 font-500'],
     ['tp4', 'h-8 sticky bg-white top-12 z-2 text-5 font-500'],
     ['tp7', 'relative'],
-    ['line', 'underline underline-offset-4'],
+    ['line', 'underline underline-offset-3'],
   ],
   presets: [
     presetUno(),
