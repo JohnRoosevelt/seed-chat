@@ -62,7 +62,7 @@
     let result = '';
     for (let i = 0; i < filteredParts.length; i++) {
       const delimiterObj = delimiters.find(d => d.text === filteredParts[i]);
-      result +=  Boolean(delimiterObj) ? `<span class="${delimiterObj.line ? 'line decoration-' + delimiterObj.line : ''}" style="background: ${delimiterObj.color}">${filteredParts[i]}</span>` : filteredParts[i];
+      result +=  Boolean(delimiterObj) ? `<span class="${delimiterObj.line ? 'line decoration-orange decoration-' + delimiterObj.line : ''}" style="background: ${delimiterObj.color}">${filteredParts[i]}</span>` : filteredParts[i];
     }
 
     return result;
@@ -203,26 +203,26 @@
 {#if contextMenuVisible}
   <div use:clickOutside onclick_outside={handleClickOutside} absolute z-999999 bg-white border-px border-gray flex-cc rounded-1 style="left: {menuPosition.x}px; top: {menuPosition.y}px;">
     <button p-2 hover="bg-[#f0f0f0]" onclick={copyToClipboard}>复制</button>
-    <button aria-label="color" p-2 hover="bg-[#f0f0f0]" data-line="solid" line decoration-solid onclick={lightContent}>
+    <button aria-label="color" p-2 hover="bg-[#f0f0f0]" data-line="solid" line decoration-solid decoration-orange onclick={lightContent}>
       A
     </button>
-    <button aria-label="color" p-2 hover="bg-[#f0f0f0]" data-line="wavy" line decoration-wavy onclick={lightContent}>
+    <button aria-label="color" p-2 hover="bg-[#f0f0f0]" data-line="wavy" line decoration-wavy decoration-orange onclick={lightContent}>
       A
     </button>
     <button aria-label="color" p-2 hover="bg-[#f0f0f0]" onclick={lightContent}>
-      <span block bg-red w-5 h-5></span>
+      <span flex-cc bg-red w-5 h-5>A</span>
     </button>
     <button aria-label="color" p-2 hover="bg-[#f0f0f0]" onclick={lightContent}>
-      <span block bg-blue w-5 h-5></span>
+      <span flex-cc bg-blue w-5 h-5>A</span>
     </button>
     <button aria-label="color" p-2 hover="bg-[#f0f0f0]" onclick={lightContent}>
-      <span block bg-green w-5 h-5></span>
+      <span flex-cc bg-green w-5 h-5>A</span>
     </button>
     <button aria-label="color" p-2 hover="bg-[#f0f0f0]" onclick={lightContent}>
-      <span block bg-sky w-5 h-5></span>
+      <span flex-cc bg-sky w-5 h-5>A</span>
     </button>
     <button aria-label="color" p-2 hover="bg-[#f0f0f0]" onclick={lightContent}>
-      <span block bg-teal w-5 h-5></span>
+      <span flex-cc bg-teal w-5 h-5>A</span>
     </button>
   </div>
 {/if}
