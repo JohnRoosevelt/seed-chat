@@ -10,6 +10,6 @@ export async function load({ parent, params: { cid, aid } }) {
   const response = await fetch(url);
   const arrayBuffer = await response.arrayBuffer();
   const { value: html } = await mammoth.convertToHtml({ arrayBuffer });
-  console.log({article}, 'xxx')
+  console.log({article, html})
   return {html, article}
 }

@@ -8,8 +8,13 @@
   const { data } = $props();
 
   let selectedP = $state({})
+  let selectedInfo = {pIndex: '', selectedText: '', index: ''}
+  let colorContent = $state({})
   let fontSize = $state(7);
   let decorationColor = $state('red');
+  let contextMenuVisible = $state(false);
+  let menuPosition = $state({ x: 0, y: 0 });
+
   let settingDB;
   $effect(async () => {
     if (!settingDB) {
@@ -31,48 +36,48 @@
     }
   });
 
-  // console.log(data.chapter)
-  let contextMenuVisible = $state(false);
-  let selectedText;
-  let menuPosition = $state({ x: 0, y: 0 });
-
-  const copyToClipboard = async () => {
-    console.log("copy to clipboard", selectedText);
+  async function copyToClipboard () {
     try {
-      await navigator.clipboard.writeText(selectedText);
-      alert("已复制到剪贴板: " + selectedText);
+      //  + '/n' + data.book.name + ''
+      const content = `${selectedInfo.selectedText}   ${selectedInfo.pIndex}˼ \n —— ${data.book.name} ${data.chapter.name} `
+      console.log({content})
+      await navigator.clipboard.writeText(content);
+      alert("已复制到剪贴板: " + content);
     } catch (err) {
       console.error("复制失败:", err);
     }
     contextMenuVisible = false;
   };
 
-  function extractNumbers(text) {
-    const regex = /(?<=\n\n).*?(?=˼)/g;
-    // const regex = /(^\n.*?˼)/gm;
-    const extractedNumbers = text.match(regex) || [];
-    const splitText = text.split(regex);
-    console.log("提取出的数字:", extractedNumbers, { splitText });
-    for (let index = 0; index < splitText.length; index++) {
-      const text = splitText[index].replace("\n\n", "").replace("˼　　", "");
-      let p = index == 0 ? extractedNumbers[index] - 1 : extractedNumbers[index - 1] - 1 + 1;
-      console.log({ text, p });
-      if (!p) {
-        console.log("xxx");
-        const pi = data.chapter?.content.find((verse) => {
-          console.log(verse);
-          return verse.c.zh.includes(text);
-        });
-        console.log(pi);
-      }
+  function splitText(i) {
+    const text = data.chapter.content[i].c.zh
+    const {text: delimiter, color} = colorContent[i]
+    const parts = text.split(delimiter);
+
+    if (parts.length < 2) {
+      return text
     }
+
+    const before = parts.slice(0, parts.length - 1).join(delimiter); // 指定文字前的内容
+    const after = parts[parts.length - 1]; // 指定文字后的内容
+
+    return `${before}<span style="background: ${color}">${selectedInfo.selectedText}</span>${after} `
+  }
+
+  async function lightContent(event) {
+    const spanElement = event.currentTarget.querySelector('span');
+    if (spanElement) {
+      const color = getComputedStyle(spanElement).backgroundColor;
+      console.log('Clicked span background color:', color, selectedInfo);
+      colorContent[selectedInfo.index] = {text: selectedInfo.selectedText, color}
+    }
+    contextMenuVisible = false;
   }
 
   function handleSelectionChange() {
     const selection = window.getSelection();
-    const selectedData = [];
     if (selection.toString()) {
-      selectedText = selection.toString();
+      const selectedText = selection.toString();
       // extractNumbers(selectedText);
 
       const range = selection.getRangeAt(0);
@@ -81,13 +86,13 @@
       let parentElement = commonAncestor;
       if (commonAncestor.nodeType === Node.TEXT_NODE) {
         parentElement = commonAncestor.parentNode;
-        const dataPValue = parentElement.getAttribute("data-p");
-        if (dataPValue) {
-          selectedData.push({ dataP: dataPValue, text: selectedText });
+        const pIndex = parentElement.getAttribute("data-p");
+        const index = parentElement.getAttribute("data-i");
+        if (pIndex) {
+          selectedInfo = { pIndex, selectedText, index }
+          
         }
       } 
-
-      console.log("选中的数据:", selectedData);
 
       const rect = selection.getRangeAt(0).getBoundingClientRect();
       menuPosition = { x: rect.x + window.scrollX, y: rect.y + window.scrollY + rect.height };
@@ -138,6 +143,7 @@
       <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
       <p onclick={() => onSelectChange(i)}
         data-p={verse.p}
+        data-i={i}
         class:line={selectedP[i]}
         class="tp{verse.t} decoration-{decorationColor}"
       >
@@ -146,15 +152,34 @@
             {verse.p}˼
           </span>
         {/if}
-        {verse.c.zh}
+        {#if colorContent[i]}
+          {@html splitText(i)}
+        {:else}
+          {verse.c.zh}
+        {/if}
       </p>
     {/each}
   </article>
 </Back>
 
 {#if contextMenuVisible}
-  <div class="context-menu" style="left: {menuPosition.x}px; top: {menuPosition.y}px;">
-    <button onclick={copyToClipboard}>高亮</button>
+  <div absolute z-9 bg-white border-px border-gray flex-cc rounded-1 style="left: {menuPosition.x}px; top: {menuPosition.y}px;">
+    <button p-2 hover="bg-[#f0f0f0]" onclick={copyToClipboard}>复制</button>
+    <button aria-label="color" p-2 hover="bg-[#f0f0f0]" onclick={lightContent}>
+      <span block bg-red w-5 h-5></span>
+    </button>
+    <button aria-label="color" p-2 hover="bg-[#f0f0f0]" onclick={lightContent}>
+      <span block bg-blue w-5 h-5></span>
+    </button>
+    <button aria-label="color" p-2 hover="bg-[#f0f0f0]" onclick={lightContent}>
+      <span block bg-green w-5 h-5></span>
+    </button>
+    <button aria-label="color" p-2 hover="bg-[#f0f0f0]" onclick={lightContent}>
+      <span block bg-sky w-5 h-5></span>
+    </button>
+    <button aria-label="color" p-2 hover="bg-[#f0f0f0]" onclick={lightContent}>
+      <span block bg-teal w-5 h-5></span>
+    </button>
   </div>
 {/if}
 
@@ -202,26 +227,5 @@
         text-indent: -3.5rem;
       }
     }
-  }
-
-  .context-menu {
-    position: absolute;
-    background-color: white;
-    border: 1px solid #ccc;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .context-menu button {
-    padding: 10px;
-    border: none;
-    background: none;
-    cursor: pointer;
-  }
-
-  .context-menu button:hover {
-    background-color: #f0f0f0;
   }
 </style>
