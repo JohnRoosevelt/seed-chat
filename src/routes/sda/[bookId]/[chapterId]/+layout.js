@@ -1,11 +1,11 @@
 import { redirect } from '@sveltejs/kit';
-import { fetchSdaBookData, getDB } from '$lib/datas/bible';
+import { fetchSdaBookData } from '$lib/datas/bible';
 
 export const ssr = false
 
 
 export async function load({ parent, params: { bookId, chapterId } }) {
-  const { books} = await parent()  
+  const { books, getDB } = await parent()
   const book = books.find(i => i.id == bookId)
   // console.log({book})
 
@@ -32,12 +32,20 @@ export async function load({ parent, params: { bookId, chapterId } }) {
     throw redirect(303, `/sda/${book.id}/${book.chapters.length}`);
   }
 
-  const chapter = book.chapters[Number(chapterId -1)]
-  console.log( { bookId, chapterId, book, chapter })
+  const chapter = book.chapters[Number(chapterId - 1)]
+  console.log({ bookId, chapterId, book, chapter })
 
   const settingDB = getDB("setting")
   const fontSize = await settingDB.getItem("fontSize");
   const decorationColor = await settingDB.getItem("decorationColor");
 
-  return { book, chapter, fontSize, decorationColor  }
+  const notesDB = getDB('notes')
+  const noteKey = `sda_${bookId}_${chapterId}`
+  const notes = await notesDB.getItem(noteKey) || {}
+
+  async function setNotes(note) {
+    await notesDB.setItem(noteKey, note)
+  }
+
+  return { book, chapter, fontSize, decorationColor, setNotes, notes }
 }

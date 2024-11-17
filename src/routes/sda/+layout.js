@@ -1,9 +1,11 @@
-import { fetchSdaIndexData, getDB } from '$lib/datas/bible';
+import { fetchSdaIndexData } from '$lib/datas/bible';
 
 export const ssr = false
 
 
-export async function load() {
+export async function load({ parent }) {
+  const { getDB } = await parent()
+
   let books = []
 
   try {

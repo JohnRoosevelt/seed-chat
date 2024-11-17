@@ -5,10 +5,10 @@
   import Chpater from "./chpater.svelte";
   import { clickOutside } from '$com/clickOutside';
 
-  const { data, fontSize = 7, } = $props();
+  const { data } = $props();
 
   let selectedInfo = {pIndex: '', selectedText: '', index: '', jIndex: ''}
-  let colorContent = $state({})
+  let notes = $state(data.notes)
   let contextMenuVisible = $state(false);
   let menuPosition = $state({ x: 0, y: 0 });
 
@@ -35,7 +35,7 @@
 
   function splitTextWithAttributes(i) {
     const text = data.chapter.content[i].c.zh
-    const delimiters = colorContent[i]
+    const delimiters = notes[i]
 
     const regex = new RegExp(`(${delimiters.map(d => d.text).join('|')})`, 'g');
 
@@ -64,17 +64,18 @@
     } else {
       obj.line = event.currentTarget.getAttribute("data-line");
     }
-    colorContent[selectedInfo.index] = colorContent[selectedInfo.index] || []
-    const index = colorContent[selectedInfo.index].findIndex(i => i.text == obj.text)
+    notes[selectedInfo.index] = notes[selectedInfo.index] || []
+    const index = notes[selectedInfo.index].findIndex(i => i.text == obj.text)
     if (index == -1) {
-      colorContent[selectedInfo.index].push(obj)
+      notes[selectedInfo.index].push(obj)
     } else {
-      colorContent[selectedInfo.index].splice(index, 1)
-      if(Object.keys(colorContent[selectedInfo.index]).length === 0) {
-        delete colorContent[selectedInfo.index]
+      notes[selectedInfo.index].splice(index, 1)
+      if(Object.keys(notes[selectedInfo.index]).length === 0) {
+        delete notes[selectedInfo.index]
       }
     }
     contextMenuVisible = false;
+    await data.setNotes($state.snapshot(notes))
   }
 
   function handleSelectionChange() {
@@ -149,7 +150,7 @@
     </div>
   {/snippet}
 
-  <article w-full px-5 pb-12 space-y-2 class="text-{fontSize}">
+  <article w-full px-5 pb-12 space-y-2 class="text-{data.fontSize}">
     {#each data.chapter?.content as verse, i}
       <!-- svelte-ignore a11y_click_events_have_key_events -->
       <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
@@ -169,7 +170,7 @@
         data-i={i}
         class="tp{verse.t}"
         >
-          {#if colorContent[i]}
+          {#if notes[i]}
             {@const rz = splitTextWithAttributes(i)}
             {#each rz as ri}
               {#if ri.isDelimiter}

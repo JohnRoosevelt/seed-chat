@@ -7,6 +7,8 @@ export function getDB(storeName) {
         driver: [localforage.INDEXEDDB, localforage.LOCALSTORAGE, localforage.WEBSQL],
     });
 
+    // localforage.dropInstance({name: 'seed', storeName: 'note'})
+
     return localforage.createInstance({
         name: 'seed',
         storeName

@@ -1,31 +1,10 @@
 <script>
   import Back from "$com/back.svelte";
-  import { getDB } from "$lib/datas/bible";
 
-  let fontSize = $state(7);
-  let decorationColor = $state('sky');
-  let settingDB;
-  $effect(async () => {
-    if (!settingDB) {
-      settingDB = getDB("setting");
-    }
+  let { data } = $props();
 
-    const dbFontSize = await settingDB.getItem("fontSize");
-    if (!dbFontSize) {
-      await settingDB.setItem("fontSize", fontSize);
-    } else {
-      fontSize = dbFontSize;
-    }
-
-    const dbDecorationColor = await settingDB.getItem("decorationColor");
-    if (!dbDecorationColor) {
-      await settingDB.setItem("decorationColor", decorationColor);
-    } else {
-      decorationColor = dbDecorationColor
-    }
-
-
-  });
+  let fontSize = $state(data.fontSize)
+  let decorationColor = $state(data.decorationColor)
 
   async function onFontSizeChange(isBigger) {
     isBigger
@@ -35,12 +14,13 @@
       : fontSize > 4
         ? fontSize--
         : fontSize;
-    await settingDB.setItem("fontSize", fontSize);
+
+    await data.settingDB.setItem("fontSize", fontSize);
   }
 
   async function onDecorationChange(color) {
     decorationColor = color
-    await settingDB.setItem("decorationColor", color);
+    await data.settingDB.setItem("decorationColor", color);
   }
 </script>
 
@@ -57,7 +37,7 @@
   
   <section px-5 pt-2 space-y-4>
     <div flex-cc bg-gray-100 p-2 rounded-2>
-      <div>字体大小：</div>
+      <div>字体大小(4 ~ 7)：</div>
       <div flex-1 space-x-2px text-green>
         <button aria-label="-" onclick={() => onFontSizeChange(false)}>
           <span i-ic-outline-text-decrease></span>
