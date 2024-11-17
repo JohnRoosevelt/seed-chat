@@ -1,40 +1,16 @@
 <script>
   import Back from "$com/back.svelte";
   import { page } from "$app/stores";
-  import { getDB } from "$lib/datas/bible";
   import Books from "./books.svelte";
   import Chpater from "./chpater.svelte";
   import { clickOutside } from '$com/clickOutside';
 
-  const { data } = $props();
+  const { data, fontSize = 7, } = $props();
 
   let selectedInfo = {pIndex: '', selectedText: '', index: '', jIndex: ''}
   let colorContent = $state({})
-  let fontSize = $state(7);
-  let decorationColor = $state('red');
   let contextMenuVisible = $state(false);
   let menuPosition = $state({ x: 0, y: 0 });
-
-  let settingDB;
-  $effect(async () => {
-    if (!settingDB) {
-      settingDB = getDB("setting");
-    }
-
-    const dbFontSize = await settingDB.getItem("fontSize");
-    if (!dbFontSize) {
-      await settingDB.setItem("fontSize", fontSize);
-    } else {
-      fontSize = dbFontSize;
-    }
-
-    const dbDecorationColor = await settingDB.getItem("decorationColor");
-    if (!dbDecorationColor) {
-      await settingDB.setItem("decorationColor", decorationColor);
-    } else {
-      decorationColor = dbDecorationColor
-    }
-  });
 
   $effect(() => {
     document.addEventListener("selectionchange", handleSelectionChange);
@@ -191,7 +167,7 @@
         ondblclick={onSelectChange}
         data-p={verse.p}
         data-i={i}
-        class="tp{verse.t} decoration-{decorationColor}"
+        class="tp{verse.t}"
         >
           {#if colorContent[i]}
             {@const rz = splitTextWithAttributes(i)}

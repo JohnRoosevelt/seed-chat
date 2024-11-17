@@ -32,9 +32,12 @@ export async function load({ parent, params: { bookId, chapterId } }) {
     throw redirect(303, `/sda/${book.id}/${book.chapters.length}`);
   }
 
-
   const chapter = book.chapters[Number(chapterId -1)]
   console.log( { bookId, chapterId, book, chapter })
 
-  return { book, chapter }
+  const settingDB = getDB("setting")
+  const fontSize = await settingDB.getItem("fontSize");
+  const decorationColor = await settingDB.getItem("decorationColor");
+
+  return { book, chapter, fontSize, decorationColor  }
 }
