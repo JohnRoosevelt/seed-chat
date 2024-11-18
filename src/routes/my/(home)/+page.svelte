@@ -2,7 +2,7 @@
   import Home from "$com/home.svelte";
 
   const { data } = $props();
-  // console.log({data})
+  console.log({data})
 </script>
 
 <svelte:head>
@@ -15,8 +15,9 @@
       <div>用户信息</div>
       <div space-x-1 flex-cc>
         <span>设备信息:</span>
-        <span text-gray text-5 class:i-carbon-mobile={data.isMobile} class:i-carbon-devices={!data.isMobile} ></span>
-        <span text-gray text-5 class:i-carbon-app={data.isStandalone} class:i-carbon-earth={!data.isStandalone} ></span>
+        <span text-gray text-5 class:i-ic-baseline-apple={data.isMac} class:i-material-symbols-android={data.isAndroid} class:i-mdi-microsoft-windows-classic={data.isWindows} ></span>
+        <span text-gray text-5 class:i-carbon-mobile={data.isMobile} class:i-ic-outline-desktop-mac={!data.isMobile} ></span>
+        <span text-gray text-5 class:i-carbon-app={data.isStandalone} class:i-mdi-web={!data.isStandalone} ></span>
         <div flex-1></div>
       </div>
     </section>

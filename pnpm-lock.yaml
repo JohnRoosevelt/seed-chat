@@ -30,6 +30,12 @@ importers:
       '@iconify-json/line-md':
         specifier: ^1.1.37
         version: 1.1.37
+      '@iconify-json/material-symbols':
+        specifier: ^1.2.7
+        version: 1.2.7
+      '@iconify-json/mdi':
+        specifier: ^1.2.1
+        version: 1.2.1
       '@julr/unocss-preset-forms':
         specifier: ^0.1.0
         version: 0.1.0(unocss@0.59.0-beta.1(postcss@8.4.38)(rollup@4.13.2)(vite@5.2.7(@types/node@20.12.2)))
@@ -752,6 +758,12 @@ packages:
 
   '@iconify-json/line-md@1.1.37':
     resolution: {integrity: sha512-qGezTafsQOX4N2STOV0gsSw/vr0u7DPXtg0jpVQTIa9ht1IXN68O+Qy7Ia2dHbuW4w5nz3UyhJzNrh7NB5T7BA==}
+
+  '@iconify-json/material-symbols@1.2.7':
+    resolution: {integrity: sha512-3zJ0vv20YfrmI1sFcWTRXWY23+qqTo/WNHm7k1yqbTneSS7yfQakUQjEB05S9YNzu6KODeJ+xHCgcq6RkGn6jg==}
+
+  '@iconify-json/mdi@1.2.1':
+    resolution: {integrity: sha512-dSkQU78gsZV6Yxnq78+LuX7jzeFC/5NAmz7O3rh558GimGFcwMVY/OtqRowIzjqJBmMmWZft7wkFV4TrwRXjlg==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -2597,6 +2609,14 @@ snapshots:
       '@iconify/types': 2.0.0
 
   '@iconify-json/line-md@1.1.37':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/material-symbols@1.2.7':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/mdi@1.2.1':
     dependencies:
       '@iconify/types': 2.0.0
 
