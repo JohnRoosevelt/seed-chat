@@ -14,7 +14,7 @@ export const initData = $state({
 })
 
 export function initSocket(jwt) {
-	console.log('init socket', env)
+	console.log('init socket')
 	initData.socket = {}
 }
 
