@@ -40,6 +40,7 @@
 <style>
 	.toast {
 		position: fixed;
+		z-index: 999;
 		left: 0;
 		bottom: 0;
 		width: 100%;
@@ -47,6 +48,8 @@
 		display: flex;
 		justify-content: center;
 		gap: 1rem;
+		background: black;
+		color: white;
 	}
 
 	.toast p {
