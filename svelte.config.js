@@ -9,6 +9,10 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			$com: './src/components',
+		},
+		version: {
+			name: Date.now().toString(),
+			pollInterval: 5000
 		}
 	}
 };
