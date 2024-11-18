@@ -2,6 +2,7 @@
   import Home from "$com/home.svelte";
 
   const { data } = $props();
+  // console.log({data})
 </script>
 
 <svelte:head>
@@ -12,7 +13,12 @@
   <article w-full flex-1 p-4 bg-gray100 space-y-4>
     <section bg-white rounded-2 p-8 space-y-4>
       <div>用户信息</div>
-      <div>设备信息</div>
+      <div space-x-1 flex-cc>
+        <span>设备信息:</span>
+        <span text-gray text-5 class:i-carbon-mobile={data.isMobile} class:i-carbon-devices={!data.isMobile} ></span>
+        <span text-gray text-5 class:i-carbon-app={data.isStandalone} class:i-carbon-earth={!data.isStandalone} ></span>
+        <div flex-1></div>
+      </div>
     </section>
 
     <section bg-white rounded-2 py-8 grid grid-cols-3 gap-8 md="grid-cols-4" lg="grid-cols-5">

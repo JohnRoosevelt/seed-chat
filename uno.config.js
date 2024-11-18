@@ -103,6 +103,7 @@ export default defineConfig({
     }
   ],
   safelist: [
+    ...['i-carbon-devices', 'i-carbon-mobile', 'i-carbon-app', 'i-carbon-earth', 'i-carbon-earth-americas'],
     ...['bg-blue', 'bg-green'],
     ...['decoration-red', 'decoration-blue', 'decoration-green', 'decoration-sky', 'decoration-teal'],
     ...Array.from('tp2 tp4 tp7 line'.split(' ')),
