@@ -42,6 +42,7 @@
     "localforage": "^1.10.0",
     "mammoth": "^1.8.0",
     "realm-web": "^2.0.1",
+    "svelte-french-toast": "^1.2.0",
     "svelte-identicons": "^1.0.4"
   }
 }

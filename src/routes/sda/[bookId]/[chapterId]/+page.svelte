@@ -4,6 +4,8 @@
   import Books from "./books.svelte";
   import Chpater from "./chpater.svelte";
   import { clickOutside } from '$com/clickOutside';
+  import toast, {Toaster} from 'svelte-french-toast'
+
 
   const { data } = $props();
 
@@ -23,10 +25,11 @@
   async function copyToClipboard () {
     try {
       //  + '/n' + data.book.name + ''
-      const content = `${selectedInfo.selectedText}   ${selectedInfo.pIndex}˼ \n —— ${data.book.name} ${data.chapter.name} `
+      const content = `${selectedInfo.selectedText}   ${selectedInfo.pIndex}˼ \n\n —— ${data.book.name} ${data.chapter.name} `
       console.log({content})
       await navigator.clipboard.writeText(content);
-      alert("已复制到剪贴板: " + content);
+      // alert("已复制到剪贴板: " + content);
+      toast.success('已复制到剪贴板!')
     } catch (err) {
       console.error("复制失败:", err);
     }
@@ -133,6 +136,7 @@
   }
 </script>
 
+<Toaster />
 <svelte:head>
   <title>{data.book.name} {data.chapter?.content[0]?.c.zh}</title>
 </svelte:head>
