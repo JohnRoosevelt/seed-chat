@@ -5,8 +5,5 @@ export async function load({ parent, params: { cid } }) {
   const cItem = c.find(i => i.id == cid)
     return {
       cItem,
-      articles: [
-        {id: 1, name: '创始成终'}
-      ]
     }
 }

@@ -19,9 +19,9 @@
   {/snippet}
 
   <ul w-full px-5 space-y-2>
-    {#each data.articles as item}
+    {#each data.cItem.articles as item}
       <li>
-        <a href="/home/{data.cItem.id}/{item.id}/"> {item.name} </a>
+        <a href="/home/{data.cItem.id}/{item.id}/">{item.id} {item.name} </a>
       </li>
     {/each}
   </ul>
